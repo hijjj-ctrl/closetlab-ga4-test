@@ -1,4 +1,4 @@
-# Closet Lab - Dummy for GA4
+# TONE LAB - Dummy for GA4
 
 GA4学習・イベントシミュレーション用のダミーECサイトです。
 サーバーサイド処理は一切なく、GitHub Pages(無料)でそのまま公開できます。

@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Closet Lab - Dummy for GA4</title>
+<title>TONE LAB - Dummy for GA4</title>
 <meta name="description" content="GA4の計測・分析練習用に作成したダミーサイトです。">
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
 <link rel="stylesheet" href="css/style.css">
 
 <!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DK5TSW3TGE"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DK5TSW3TGE');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 <!-- ▲▲ ここまで ▲▲ -->
 </head>
@@ -23,7 +23,7 @@
 
 <header class="site-header">
   <div class="container">
-    <a href="index.html" class="logo">Closet Lab</a>
+    <a href="index.html" class="logo">TONE LAB</a>
     <nav class="main-nav">
       <a href="index.html">HOME</a>
       <a href="index.html#concept">CONCEPT</a>
@@ -54,7 +54,9 @@
     <span class="news-pill">2026.08.23 2026 Fall-Winterの新作予約開始</span>
     <h1>わたしらしく、<br>秋をまとう。</h1>
     <p>毎日に寄り添う、心地よいベーシック。</p>
-    <div class="hero-visual">HERO IMAGE(ご自身の画像に差し替え可)</div>
+    <div class="hero-visual">
+      <img src="assets/images/hero.jpg" alt="TONE LAB 2026 Fall-Winter" onerror="this.remove()">
+    </div>
   </div>
 </section>
 
@@ -131,7 +133,7 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <strong style="color:var(--text)">Closet Lab</strong><br><br>
+        <strong style="color:var(--text)">TONE LAB</strong><br><br>
         GA4学習用のダミーサイトです。
       </div>
       <div>
@@ -146,7 +148,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      © 2026 Closet Lab (Dummy site for GA4 learning)<br>
+      © 2026 TONE LAB (Dummy site for GA4 learning)<br>
       本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
     </div>
   </div>
@@ -163,7 +165,7 @@
     const card = document.createElement("div");
     card.className = "product-card";
     card.innerHTML =
-      '<div class="product-thumb" style="background:' + p.color + '">' + p.name + '</div>' +
+      '<div class="product-thumb" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></div>' +
       '<div class="product-body">' +
         '<h3>' + p.name + '</h3>' +
         '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +

@@ -52,7 +52,7 @@ function toGA4Item(product, quantity) {
     item_id: product.sku,
     item_name: product.name,
     item_category: product.category,
-    item_brand: "Closet Lab",
+    item_brand: "TONE LAB",
     price: product.price,
     quantity: quantity || 1
   };

@@ -68,7 +68,7 @@ function trackViewCart(cartItems) {
       item_id: c.sku,
       item_name: c.name,
       item_category: c.category,
-      item_brand: "Closet Lab",
+      item_brand: "TONE LAB",
       price: c.price,
       quantity: c.qty
     }))
@@ -84,7 +84,7 @@ function trackBeginCheckout(cartItems) {
       item_id: c.sku,
       item_name: c.name,
       item_category: c.category,
-      item_brand: "Closet Lab",
+      item_brand: "TONE LAB",
       price: c.price,
       quantity: c.qty
     }))
@@ -124,7 +124,7 @@ function trackPurchase(transactionId, cartItems, shippingFee) {
     shipping: shippingFee || 0,
     items: cartItems.map(c => ({
       item_id: c.sku, item_name: c.name, item_category: c.category,
-      item_brand: "Closet Lab", price: c.price, quantity: c.qty
+      item_brand: "TONE LAB", price: c.price, quantity: c.qty
     }))
   });
 }
