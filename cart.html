@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カート | Closet Lab - Dummy for GA4</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Closet Lab</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#lineup">LINEUP</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="container page-header">
+  <div class="breadcrumb"><a href="index.html">HOME</a> / カート</div>
+  <h1>カート</h1>
+</div>
+
+<div class="container" style="padding-bottom:96px">
+  <div id="cart-root"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 Closet Lab (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/main.js"></script>
+<script>
+  function render() {
+    const cart = getCart();
+    const root = document.getElementById("cart-root");
+    if (cart.length === 0) {
+      root.innerHTML = '<div class="empty-state">カートは空です。<br><br><a href="index.html#lineup" class="btn">商品を見る</a></div>';
+      return;
+    }
+    let rows = cart.map(function (c) {
+      return '<tr data-row="' + c.id + '">' +
+        '<td>' + c.name + '</td>' +
+        '<td>¥' + c.price.toLocaleString() + '</td>' +
+        '<td><input type="number" min="1" max="10" value="' + c.qty + '" data-qty-input="' + c.id + '" style="width:56px"></td>' +
+        '<td>¥' + (c.price * c.qty).toLocaleString() + '</td>' +
+        '<td><button data-remove="' + c.id + '" class="btn-outline btn" style="padding:6px 10px;font-size:12px">削除</button></td>' +
+        '</tr>';
+    }).join("");
+
+    const total = cartTotal(cart);
+
+    root.innerHTML =
+      '<table class="cart-table"><thead><tr><th>商品</th><th>単価</th><th>数量</th><th>小計</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<div class="cart-summary">' +
+        '<div class="summary-row"><span>商品合計</span><span>¥' + total.toLocaleString() + '</span></div>' +
+        '<div class="summary-row total"><span>合計</span><span>¥' + total.toLocaleString() + '</span></div>' +
+        '<button class="btn btn-block" id="checkout-btn" style="margin-top:20px">購入手続きへ進む</button>' +
+      '</div>';
+
+    document.getElementById("checkout-btn").addEventListener("click", function () {
+      trackBeginCheckout(getCart());
+      location.href = "checkout.html";
+    });
+  }
+
+  render();
+
+  const cart = getCart();
+  if (cart.length > 0) {
+    trackViewCart(cart);
+  }
+
+  document.getElementById("cart-root").addEventListener("change", function (e) {
+    const qtyInput = e.target.closest("[data-qty-input]");
+    if (qtyInput) {
+      const id = qtyInput.getAttribute("data-qty-input");
+      updateQuantity(id, parseInt(qtyInput.value || 1));
+      render();
+    }
+  });
+
+  document.getElementById("cart-root").addEventListener("click", function (e) {
+    const removeBtn = e.target.closest("[data-remove]");
+    if (removeBtn) {
+      const id = removeBtn.getAttribute("data-remove");
+      const item = getCart().find(c => c.id === id);
+      if (item) trackRemoveFromCart({ sku: item.sku, name: item.name, category: item.category, price: item.price }, item.qty);
+      removeFromCart(id);
+      render();
+    }
+  });
+</script>
+</body>
+</html>

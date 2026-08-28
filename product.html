@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品詳細 | Closet Lab - Dummy for GA4</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Closet Lab</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#lineup">LINEUP</a>
+      <a href="cart.html">CART</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="container page-header">
+  <div class="breadcrumb"><a href="index.html">HOME</a> / <a href="index.html#lineup">LINEUP</a> / <span id="bc-name"></span></div>
+</div>
+
+<div class="container">
+  <div class="pd-grid" id="pd-root"></div>
+</div>
+
+<div style="height:96px"></div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 Closet Lab (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const product = getProductById(params.get("id")) || PRODUCTS[0];
+  document.title = product.name + " | Closet Lab - Dummy for GA4";
+  document.getElementById("bc-name").textContent = product.name;
+
+  document.getElementById("pd-root").innerHTML =
+    '<div class="pd-visual" style="background:' + product.color + '"></div>' +
+    '<div>' +
+      '<h1 class="pd-name">' + product.name + '</h1>' +
+      '<div class="pd-price">¥' + product.price.toLocaleString() + '</div>' +
+      '<p class="pd-desc">' + product.desc + '</p>' +
+      '<div class="qty-row">' +
+        '<button type="button" data-qty-minus>−</button>' +
+        '<input type="number" id="qty" value="1" min="1" max="10">' +
+        '<button type="button" data-qty-plus>+</button>' +
+      '</div>' +
+      '<button class="btn btn-block" id="add-btn">カートに追加</button>' +
+    '</div>';
+
+  // view_item イベント(ページ表示時に1回)
+  trackViewItem(product);
+
+  const qtyInput = document.getElementById("qty");
+  document.querySelector("[data-qty-minus]").addEventListener("click", function () {
+    qtyInput.value = Math.max(1, parseInt(qtyInput.value || 1) - 1);
+  });
+  document.querySelector("[data-qty-plus]").addEventListener("click", function () {
+    qtyInput.value = Math.min(10, parseInt(qtyInput.value || 1) + 1);
+  });
+
+  document.getElementById("add-btn").addEventListener("click", function () {
+    const qty = Math.max(1, parseInt(qtyInput.value || 1));
+    addToCart(product, qty);
+    trackAddToCart(product, qty);
+    this.textContent = "カートに追加しました";
+    setTimeout(() => { this.textContent = "カートに追加"; }, 1200);
+  });
+</script>
+</body>
+</html>

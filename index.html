@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closet Lab - Dummy for GA4</title>
+<meta name="description" content="GA4の計測・分析練習用に作成したダミーサイトです。">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<!-- ▲▲ ここまで ▲▲ -->
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Closet Lab</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="index.html#lineup">LINEUP</a>
+      <a href="cart.html">CATALOG</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">
+        カート <span class="cart-badge" data-cart-badge>0</span>
+      </a>
+      <button class="menu-btn" data-menu-btn aria-label="メニュー">☰</button>
+    </div>
+  </div>
+  <div class="menu-panel" data-menu-panel>
+    <a href="index.html">HOME</a>
+    <a href="index.html#concept">CONCEPT</a>
+    <a href="index.html#lineup">LINEUP</a>
+    <a href="cart.html">CATALOG</a>
+    <a href="index.html#journal">JOURNAL</a>
+    <a href="index.html#faq">FAQ</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="news-pill">2026.08.23 2026 Fall-Winterの新作予約開始</span>
+    <h1>わたしらしく、<br>秋をまとう。</h1>
+    <p>毎日に寄り添う、心地よいベーシック。</p>
+    <div class="hero-visual">HERO IMAGE(ご自身の画像に差し替え可)</div>
+  </div>
+</section>
+
+<section class="section" id="concept">
+  <div class="container concept-grid">
+    <div>
+      <span class="eyebrow">CONCEPT</span>
+      <h2>心地よさを、かたちに。</h2>
+    </div>
+    <p>
+      素材の肌ざわり、身体を包むシルエット、毎日の暮らしになじむデザイン。<br>
+      流行だけを追うのではなく、長く愛せるものを丁寧に選ぶ。<br>
+      「今日もこれを着たい」と思える一着を、ひとつひとつ心を込めてお届けします。
+    </p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">PRODUCT</span>
+      <h2>3つのこだわり</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><h3>QUALITY</h3><p>上質な素材と、丁寧な仕立て。</p></div>
+      <div class="pillar"><h3>COMFORT</h3><p>一日中、自分らしくいられる心地よさ。</p></div>
+      <div class="pillar"><h3>TIMELESS</h3><p>季節やトレンドを越えて、長く楽しめるデザイン。</p></div>
+    </div>
+    <div class="center"><a href="#lineup" class="btn">ONLINE STORE</a></div>
+  </div>
+</section>
+
+<section class="section" id="lineup">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">LINEUP</span>
+      <h2>ラインナップ</h2>
+    </div>
+    <div class="product-grid" id="lineup-grid"></div>
+  </div>
+</section>
+
+<section class="section section-alt" id="journal">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">JOURNAL</span>
+      <h2>最新情報</h2>
+    </div>
+    <div class="journal-list">
+      <div class="journal-item"><span class="journal-date">2026.08.23</span><span><span class="journal-tag">NEWS</span>2026 Fall-Winterの新作予約開始</span></div>
+      <div class="journal-item"><span class="journal-date">2026.06.06</span><span><span class="journal-tag">NEWS</span>リボンブラウス 再入荷しました</span></div>
+      <div class="journal-item"><span class="journal-date">2026.06.01</span><span><span class="journal-tag">NEWS</span>夏季休業期間中の配送について</span></div>
+      <div class="journal-item"><span class="journal-date">2026.05.01</span><span><span class="journal-tag">CAMPAIGN</span>初回購入特典キャンペーン</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>よくあるご質問</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item"><summary>注文から発送までどのくらいかかりますか？</summary><p>ご注文完了後、通常1〜3営業日以内に発送いたします。</p></details>
+      <details class="faq-item"><summary>返品や交換は可能ですか？</summary><p>商品到着後7日以内であれば、未使用品に限り交換・返品を承ります。</p></details>
+      <details class="faq-item"><summary>どのような支払い方法が利用できますか？</summary><p>クレジットカード、あと払い、代金引換がご利用いただけます(本サイトはテスト用のため実決済は発生しません)。</p></details>
+      <details class="faq-item"><summary>自宅で洗濯できる素材かどうか確認できますか？</summary><p>各商品ページの詳細欄にてご確認いただけます。</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <strong style="color:var(--text)">Closet Lab</strong><br><br>
+        GA4学習用のダミーサイトです。
+      </div>
+      <div>
+        <a href="index.html">HOME</a>
+        <a href="index.html#concept">CONCEPT</a>
+        <a href="index.html#lineup">LINEUP</a>
+        <a href="index.html#faq">FAQ</a>
+      </div>
+      <div>
+        <a href="assets/pdf/catalog.pdf">カタログPDF</a>
+        <a href="https://www.instagram.com/">Instagram(外部リンク例)</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Closet Lab (Dummy site for GA4 learning)<br>
+      本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // ラインナップ描画 + view_item_list / select_item イベント
+  const grid = document.getElementById("lineup-grid");
+  PRODUCTS.forEach(function (p) {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.innerHTML =
+      '<div class="product-thumb" style="background:' + p.color + '">' + p.name + '</div>' +
+      '<div class="product-body">' +
+        '<h3>' + p.name + '</h3>' +
+        '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +
+        '<p class="product-desc">' + p.desc + '</p>' +
+        '<div class="product-actions">' +
+          '<a class="btn-outline btn" href="product.html?id=' + p.id + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
+          '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
+        '</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+
+  trackViewItemList(PRODUCTS, "トップページ ラインナップ");
+
+  grid.addEventListener("click", function (e) {
+    const detailLink = e.target.closest("[data-view-detail]");
+    if (detailLink) {
+      const p = getProductById(detailLink.getAttribute("data-view-detail"));
+      trackSelectItem(p, "トップページ ラインナップ");
+    }
+    const quickAdd = e.target.closest("[data-quick-add]");
+    if (quickAdd) {
+      const p = getProductById(quickAdd.getAttribute("data-quick-add"));
+      addToCart(p, 1);
+      trackAddToCart(p, 1);
+      quickAdd.textContent = "追加しました";
+      setTimeout(() => quickAdd.textContent = "カートに追加", 1200);
+    }
+  });
+</script>
+</body>
+</html>

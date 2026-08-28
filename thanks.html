@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ご注文ありがとうございます | Closet Lab - Dummy for GA4</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Closet Lab</a>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="container thanks-box" id="thanks-root">
+  <span class="eyebrow">THANK YOU</span>
+  <h1>ご注文ありがとうございます</h1>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 Closet Lab (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/cart.js"></script>
+<script>
+  const order = JSON.parse(sessionStorage.getItem("last_order") || "null");
+  const root = document.getElementById("thanks-root");
+  if (order) {
+    root.innerHTML +=
+      '<p>注文番号</p><div class="order-id">' + order.transactionId + '</div>' +
+      '<p>お支払い合計: ¥' + order.total.toLocaleString() + '</p>' +
+      '<div style="margin-top:32px"><a href="index.html" class="btn">トップページへ戻る</a></div>';
+  } else {
+    root.innerHTML += '<p style="margin-top:24px"><a href="index.html" class="btn">トップページへ戻る</a></p>';
+  }
+</script>
+</body>
+</html>

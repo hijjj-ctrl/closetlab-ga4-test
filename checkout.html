@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お手続き | Closet Lab - Dummy for GA4</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Closet Lab</a>
+    <nav class="main-nav"><a href="cart.html">カートへ戻る</a></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="container page-header">
+  <div class="breadcrumb"><a href="index.html">HOME</a> / <a href="cart.html">カート</a> / お手続き</div>
+  <h1>ご注文手続き</h1>
+</div>
+
+<div class="container" style="padding-bottom:96px">
+  <div class="notice-box">
+    これは学習用のダミーサイトです。実際の決済・配送は発生しません。フォームには<strong>本名・実在の住所・実在の電話番号など個人情報を入力しないでください</strong>。「テスト太郎」のような架空の情報をご利用ください。
+  </div>
+
+  <div id="checkout-root"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 Closet Lab (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const cart = getCart();
+  const root = document.getElementById("checkout-root");
+
+  if (cart.length === 0) {
+    root.innerHTML = '<div class="empty-state">カートが空のため、お手続きに進めません。<br><br><a href="index.html#lineup" class="btn">商品を見る</a></div>';
+  } else {
+    const total = cartTotal(cart);
+    root.innerHTML =
+      '<form class="form-block" id="checkout-form">' +
+        '<div class="form-group"><label>お名前(ダミー)</label><input type="text" placeholder="テスト 太郎" required></div>' +
+        '<div class="form-group"><label>お届け先(ダミー・実在の住所は入力しないでください)</label><input type="text" placeholder="テスト県テスト市テスト町0-0-0" required></div>' +
+
+        '<div class="form-group">' +
+          '<label>配送方法</label>' +
+          '<div class="radio-group">' +
+            '<label class="radio-option"><input type="radio" name="shipping" value="standard" checked> 通常配送(無料・3〜5日)</label>' +
+            '<label class="radio-option"><input type="radio" name="shipping" value="express"> お急ぎ便(¥500・翌日)</label>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="form-group">' +
+          '<label>お支払い方法</label>' +
+          '<div class="radio-group">' +
+            '<label class="radio-option"><input type="radio" name="payment" value="credit_card" checked> クレジットカード</label>' +
+            '<label class="radio-option"><input type="radio" name="payment" value="cod"> 代金引換</label>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="cart-summary" style="margin:0 0 24px">' +
+          '<div class="summary-row"><span>商品合計</span><span>¥' + total.toLocaleString() + '</span></div>' +
+          '<div class="summary-row" id="shipping-fee-row"><span>送料</span><span id="shipping-fee">¥0</span></div>' +
+          '<div class="summary-row total"><span>合計</span><span id="grand-total">¥' + total.toLocaleString() + '</span></div>' +
+        '</div>' +
+
+        '<button type="submit" class="btn btn-block">注文を確定する(ダミー)</button>' +
+      '</form>';
+
+    const form = document.getElementById("checkout-form");
+    const shippingFeeEl = document.getElementById("shipping-fee");
+    const grandTotalEl = document.getElementById("grand-total");
+
+    function currentShippingFee() {
+      const v = form.querySelector('input[name="shipping"]:checked').value;
+      return v === "express" ? 500 : 0;
+    }
+    function refreshTotal() {
+      const fee = currentShippingFee();
+      shippingFeeEl.textContent = "¥" + fee.toLocaleString();
+      grandTotalEl.textContent = "¥" + (total + fee).toLocaleString();
+    }
+
+    form.querySelectorAll('input[name="shipping"]').forEach(function (el) {
+      el.addEventListener("change", function () {
+        refreshTotal();
+        trackAddShippingInfo(cart, el.value);
+      });
+    });
+    form.querySelectorAll('input[name="payment"]').forEach(function (el) {
+      el.addEventListener("change", function () {
+        trackAddPaymentInfo(cart, el.value);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const fee = currentShippingFee();
+      const transactionId = "T" + Date.now();
+
+      trackPurchase(transactionId, cart, fee);
+
+      sessionStorage.setItem("last_order", JSON.stringify({
+        transactionId: transactionId,
+        total: total + fee
+      }));
+      clearCart();
+
+      // GA4へのイベント送信を待ってから画面遷移
+      setTimeout(function () {
+        location.href = "thanks.html";
+      }, 300);
+    });
+  }
+</script>
+</body>
+</html>
