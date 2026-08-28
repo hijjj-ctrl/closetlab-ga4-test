@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
 
 :root {
-  --bg: #F6F2EC;
-  --bg-alt: #EFE9DF;
-  --text: #2A2622;
-  --text-soft: #6B6459;
-  --accent: #A85C32;
-  --accent-soft: #C97B5B;
-  --olive: #6E6A4F;
-  --border: #DDD5C7;
+  --bg: #FAFAFA;
+  --bg-alt: #EDEDED;
+  --text: #111111;
+  --text-soft: #6B6B6B;
+  --accent: #111111;
+  --accent-soft: #4A4A4A;
+  --olive: #2B2B2B;
+  --border: #DCDCDC;
   --font-display: 'Shippori Mincho', serif;
   --font-body: 'Noto Sans JP', sans-serif;
 }
@@ -89,7 +89,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
 .hero p { color: var(--text-soft); margin-bottom: 40px; }
 .hero-visual {
   height: 320px; border-radius: 4px; margin: 0 auto; max-width: 900px;
-  background: linear-gradient(135deg, var(--accent-soft), var(--olive));
+  background: linear-gradient(135deg, #2B2B2B, #6B6B6B);
   display: flex; align-items: center; justify-content: center;
   color: rgba(255,255,255,0.85); font-family: var(--font-display); font-size: 15px; letter-spacing: 0.1em;
 }
@@ -114,8 +114,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   background: var(--accent); color: #fff; font-size: 14px; letter-spacing: 0.05em;
   border: none; cursor: pointer; transition: opacity .2s;
 }
-.btn:hover { opacity: 0.85; }
+.btn:hover { opacity: 0.8; }
 .btn-outline { background: transparent; border: 1px solid var(--text); color: var(--text); }
+.btn-outline:hover { background: var(--text); color: #fff; }
 .btn-block { display: block; width: 100%; text-align: center; }
 .center { text-align: center; }
 
