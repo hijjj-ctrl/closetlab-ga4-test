@@ -10,7 +10,7 @@ const PRODUCTS = [
     name: "リボンブラウス",
     category: "トップス",
     price: 6900,
-    color: "#C97B5B",
+    color: "#2E2E2E",
     desc: "シルクのような肌触りのドレープ素材。上品な光沢感が、いつものコーディネートを格上げします。",
     image: "assets/images/product-1.jpg" // ご自身のChatGPT生成画像に差し替えてください
   },
@@ -20,7 +20,7 @@ const PRODUCTS = [
     name: "マーメイドスカート",
     category: "ボトムス",
     price: 8900,
-    color: "#8C6A4F",
+    color: "#1A1A1A",
     desc: "美しいシルエットを追求したマーメイドライン。オフィスにもお出かけにも馴染みます。",
     image: "assets/images/product-2.jpg"
   },
@@ -30,7 +30,7 @@ const PRODUCTS = [
     name: "コットンジャケット",
     category: "アウター",
     price: 15900,
-    color: "#6E6A4F",
+    color: "#4A4A4A",
     desc: "コットン100%。軽やかな着心地とナチュラルな風合いが魅力の一着です。",
     image: "assets/images/product-3.jpg"
   },
@@ -40,7 +40,7 @@ const PRODUCTS = [
     name: "バレエシューズ",
     category: "シューズ",
     price: 5900,
-    color: "#A6785F",
+    color: "#606060",
     desc: "軽量でやわらかなレザー素材。長時間歩いても疲れにくい設計です。",
     image: "assets/images/product-4.jpg"
   }
