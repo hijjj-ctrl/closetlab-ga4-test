@@ -151,6 +151,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
   font-size: 14px; align-items: baseline; transition: opacity .15s;
 }
 .journal-item:hover { opacity: 0.6; }
+.journal-thumb {
+  width: 56px; height: 56px; border-radius: 4px; overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.journal-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .journal-date { color: var(--text-soft); flex-shrink: 0; }
 .journal-tag { color: var(--accent); font-size: 12px; margin-right: 8px; }
 
