@@ -8,6 +8,8 @@ const JOURNAL_POSTS = [
     date: "2026.08.23",
     tag: "NEWS",
     title: "2026 Fall-Winterの新作予約開始",
+    image: "assets/images/journal-1.jpg",
+    color: "#2B2B2B",
     body: [
       "2026年秋冬シーズンの新作コレクションのご予約を開始いたしました。",
       "今シーズンは「わたしらしく、秋をまとう」をテーマに、上質な素材と長く楽しめるベーシックなデザインにこだわりました。",
@@ -19,6 +21,8 @@ const JOURNAL_POSTS = [
     date: "2026.06.06",
     tag: "NEWS",
     title: "リボンブラウス 再入荷しました",
+    image: "assets/images/journal-2.jpg",
+    color: "#4A4A4A",
     body: [
       "ご好評につき完売しておりました「リボンブラウス」が再入荷いたしました。",
       "上品な光沢感のあるドレープ素材で、オフィスにもカジュアルにも合わせやすい一枚です。",
@@ -30,6 +34,8 @@ const JOURNAL_POSTS = [
     date: "2026.06.01",
     tag: "NEWS",
     title: "夏季休業期間中の配送について",
+    image: "assets/images/journal-3.jpg",
+    color: "#606060",
     body: [
       "夏季休業期間中(8月13日〜8月16日)は、商品の発送業務をお休みさせていただきます。",
       "休業期間中にいただいたご注文につきましては、8月17日以降、順次発送いたします。",
@@ -41,6 +47,8 @@ const JOURNAL_POSTS = [
     date: "2026.05.01",
     tag: "CAMPAIGN",
     title: "初回購入特典キャンペーン",
+    image: "assets/images/journal-4.jpg",
+    color: "#1A1A1A",
     body: [
       "はじめてご利用いただくお客様を対象に、初回購入特典キャンペーンを実施中です。",
       "会員登録のうえご購入いただくと、次回のお買い物でご利用いただけるクーポンをプレゼントいたします。",
