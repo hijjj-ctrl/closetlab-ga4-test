@@ -148,8 +148,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
 .journal-list { max-width: 640px; margin: 0 auto; }
 .journal-item {
   display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border);
-  font-size: 14px; align-items: baseline;
+  font-size: 14px; align-items: baseline; transition: opacity .15s;
 }
+.journal-item:hover { opacity: 0.6; }
 .journal-date { color: var(--text-soft); flex-shrink: 0; }
 .journal-tag { color: var(--accent); font-size: 12px; margin-right: 8px; }
 
