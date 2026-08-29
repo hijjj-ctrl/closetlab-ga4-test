@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal | TONE LAB - Dummy for GA4</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<!-- ▲▲ ここまで ▲▲ -->
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">TONE LAB</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#lineup">LINEUP</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="container page-header">
+  <div class="breadcrumb"><a href="index.html">HOME</a> / <a href="index.html#journal">JOURNAL</a> / <span id="bc-title"></span></div>
+</div>
+
+<div class="container" style="max-width:680px; padding-bottom:96px">
+  <div id="journal-root"></div>
+  <div style="margin-top:48px">
+    <a href="index.html#journal" class="btn-outline btn">JOURNAL一覧へ戻る</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 TONE LAB (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/journal.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const post = getJournalPostById(params.get("id")) || JOURNAL_POSTS[0];
+
+  document.title = post.title + " | TONE LAB - Dummy for GA4";
+  document.getElementById("bc-title").textContent = post.title;
+
+  document.getElementById("journal-root").innerHTML =
+    '<span class="eyebrow">' + post.tag + '</span>' +
+    '<h1 style="margin:8px 0 4px">' + post.title + '</h1>' +
+    '<p style="color:var(--text-soft);font-size:13px;margin-bottom:32px">' + post.date + '</p>' +
+    post.body.map(p => '<p style="margin-bottom:20px">' + p + '</p>').join('');
+
+  // GA4推奨イベント: select_contentの受け皿(記事詳細を実際に閲覧したことを計測)
+  sendEvent("select_content", {
+    content_type: "journal",
+    item_id: post.id,
+    content_title: post.title
+  });
+</script>
+</body>
+</html>
