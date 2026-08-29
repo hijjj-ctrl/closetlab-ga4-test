@@ -10,12 +10,12 @@
 <link rel="stylesheet" href="css/style.css">
 
 <!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DK5TSW3TGE"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DK5TSW3TGE');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 <!-- ▲▲ ここまで ▲▲ -->
 </head>
@@ -107,11 +107,11 @@
       <span class="eyebrow">JOURNAL</span>
       <h2>最新情報</h2>
     </div>
-    <div class="journal-list">
-      <div class="journal-item"><span class="journal-date">2026.08.23</span><span><span class="journal-tag">NEWS</span>2026 Fall-Winterの新作予約開始</span></div>
-      <div class="journal-item"><span class="journal-date">2026.06.06</span><span><span class="journal-tag">NEWS</span>リボンブラウス 再入荷しました</span></div>
-      <div class="journal-item"><span class="journal-date">2026.06.01</span><span><span class="journal-tag">NEWS</span>夏季休業期間中の配送について</span></div>
-      <div class="journal-item"><span class="journal-date">2026.05.01</span><span><span class="journal-tag">CAMPAIGN</span>初回購入特典キャンペーン</span></div>
+    <div class="journal-list" id="journal-list">
+      <a class="journal-item" data-journal-id="1" href="journal.html?id=1"><span class="journal-date">2026.08.23</span><span><span class="journal-tag">NEWS</span>2026 Fall-Winterの新作予約開始</span></a>
+      <a class="journal-item" data-journal-id="2" href="journal.html?id=2"><span class="journal-date">2026.06.06</span><span><span class="journal-tag">NEWS</span>リボンブラウス 再入荷しました</span></a>
+      <a class="journal-item" data-journal-id="3" href="journal.html?id=3"><span class="journal-date">2026.06.01</span><span><span class="journal-tag">NEWS</span>夏季休業期間中の配送について</span></a>
+      <a class="journal-item" data-journal-id="4" href="journal.html?id=4"><span class="journal-date">2026.05.01</span><span><span class="journal-tag">CAMPAIGN</span>初回購入特典キャンペーン</span></a>
     </div>
   </div>
 </section>
@@ -196,6 +196,18 @@
       trackAddToCart(p, 1);
       quickAdd.textContent = "追加しました";
       setTimeout(() => quickAdd.textContent = "カートに追加", 1200);
+    }
+  });
+
+  // Journal一覧のクリック計測(記事詳細へ遷移する前にイベント送信)
+  document.getElementById("journal-list").addEventListener("click", function (e) {
+    const item = e.target.closest("[data-journal-id]");
+    if (item) {
+      sendEvent("select_content", {
+        content_type: "journal",
+        item_id: item.getAttribute("data-journal-id"),
+        content_title: item.textContent.trim()
+      });
     }
   });
 </script>

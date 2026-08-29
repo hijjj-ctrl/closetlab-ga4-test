@@ -16,6 +16,7 @@ GA4学習・イベントシミュレーション用のダミーECサイトです
 - checkout.html
 - thanks.html
 - contact.html
+- journal.html
 
 置き換え例(Macのターミナル/GitHub CodespacesなどLinux系シェルの場合):
 
@@ -69,6 +70,7 @@ grep -rl "G-XXXXXXXXXX" . | xargs sed -i '' 's/G-XXXXXXXXXX/G-あなたの測定
 | faq_open(独自) | FAQの項目を開いた時 | question |
 | form_start(独自) | お問い合わせフォームに入力し始めた時 | form_name |
 | generate_lead | お問い合わせフォーム送信時 | lead_type, form_name |
+| select_content(独自) | Journal記事一覧クリック時・記事詳細ページ表示時 | content_type, item_id, content_title |
 
 すべて `js/analytics.js` の `sendEvent()` を経由しています。
 新しいイベントを試したい場合は、この関数を呼び出す形で追加してください。
