@@ -5,9 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
   if (menuBtn && menuPanel) {
     menuBtn.addEventListener("click", function () {
       menuPanel.classList.toggle("is-open");
+      document.body.classList.toggle("menu-open", menuPanel.classList.contains("is-open"));
     });
     menuPanel.querySelectorAll("a").forEach(a => {
-      a.addEventListener("click", () => menuPanel.classList.remove("is-open"));
+      a.addEventListener("click", function () {
+        menuPanel.classList.remove("is-open");
+        document.body.classList.remove("menu-open");
+      });
     });
   }
 });
