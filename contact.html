@@ -34,7 +34,12 @@
       <a href="contact.html">CONTACT</a>
     </nav>
     <div class="header-actions">
-      <a href="search.html" aria-label="検索" style="font-size:16px">🔍</a>
+      <div class="header-search">
+        <form action="search.html" method="get">
+          <input type="text" name="q" placeholder="商品やJOURNALを検索" aria-label="サイト内検索">
+          <button type="submit" aria-label="検索">🔍</button>
+        </form>
+      </div>
       <a href="cart.html" class="cart-link">
         カート <span class="cart-badge" data-cart-badge>0</span>
       </a>

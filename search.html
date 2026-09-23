@@ -10,12 +10,12 @@
 <link rel="stylesheet" href="css/style.css">
 
 <!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQ4DZSXQY0"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-BQ4DZSXQY0');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 <!-- ▲▲ ここまで ▲▲ -->
 </head>
@@ -31,6 +31,12 @@
       <a href="contact.html">CONTACT</a>
     </nav>
     <div class="header-actions">
+      <div class="header-search">
+        <form action="search.html" method="get">
+          <input type="text" name="q" placeholder="商品やJOURNALを検索" aria-label="サイト内検索">
+          <button type="submit" aria-label="検索">🔍</button>
+        </form>
+      </div>
       <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
     </div>
   </div>
@@ -79,7 +85,7 @@
       html += '<h3 style="font-size:14px;letter-spacing:0.05em;color:var(--olive);margin-bottom:12px">商品</h3>';
       html += '<div class="journal-list" style="margin-bottom:32px">';
       productHits.forEach(p => {
-        html += '<a class="journal-item" href="product.html?id=' + p.id + '"><span class="journal-thumb" style="background:' + p.color + '"></span><span>' + p.name + '<br><span style="color:var(--text-soft);font-size:12px">¥' + p.price.toLocaleString() + '</span></span></a>';
+        html += '<a class="journal-item" href="product.html?id=' + p.id + '"><span class="journal-thumb" style="background:' + p.color + '"><img src="' + p.image + '" alt="" onerror="this.remove()"></span><span>' + p.name + '<br><span style="color:var(--text-soft);font-size:12px">¥' + p.price.toLocaleString() + '</span></span></a>';
       });
       html += '</div>';
     }
