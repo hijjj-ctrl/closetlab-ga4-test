@@ -18,6 +18,7 @@ GA4学習・イベントシミュレーション用のダミーECサイトです
 - contact.html
 - journal.html
 - search.html
+- 404.html
 
 置き換え例(Macのターミナル/GitHub CodespacesなどLinux系シェルの場合):
 
@@ -76,6 +77,7 @@ grep -rl "G-XXXXXXXXXX" . | xargs sed -i '' 's/G-XXXXXXXXXX/G-あなたの測定
 | video_progress(独自) | 動画の再生が10/25/50/75%に到達した時 | video_title, video_percent |
 | video_complete(独自) | 動画の再生が終了した時 | video_title, video_provider, video_url |
 | view_search_results | サイト内検索の実行時 | search_term, results_count |
+| page_not_found(独自) | 存在しないURLにアクセスした時(404ページ) | page_path, page_referrer |
 
 すべて `js/analytics.js` の `sendEvent()` を経由しています。
 新しいイベントを試したい場合は、この関数を呼び出す形で追加してください。
