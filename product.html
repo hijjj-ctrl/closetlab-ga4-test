@@ -13,6 +13,13 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-BQ4DZSXQY0');
 </script>
@@ -36,6 +43,7 @@
         </form>
       </div>
       <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
     </div>
   </div>
 </header>
@@ -59,7 +67,9 @@
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
+<script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
   const params = new URLSearchParams(location.search);
@@ -67,18 +77,30 @@
   document.title = product.name + " | TONE LAB - Dummy for GA4";
   document.getElementById("bc-name").textContent = product.name;
 
+  const COLOR_OPTIONS = ["ブラック", "チャコールグレー", "オフホワイト"];
+  const SIZE_OPTIONS = ["S", "M", "L"];
+
   document.getElementById("pd-root").innerHTML =
     '<div class="pd-visual" style="background:' + product.color + '"><img src="' + product.image + '" alt="' + product.name + '" onerror="this.remove()"></div>' +
     '<div>' +
       '<h1 class="pd-name">' + product.name + '</h1>' +
       '<div class="pd-price">¥' + product.price.toLocaleString() + '</div>' +
       '<p class="pd-desc">' + product.desc + '</p>' +
+      '<div class="form-group"><label>カラー</label><select id="opt-color">' +
+        COLOR_OPTIONS.map(c => '<option value="' + c + '">' + c + '</option>').join('') +
+      '</select></div>' +
+      '<div class="form-group"><label>サイズ</label><select id="opt-size">' +
+        SIZE_OPTIONS.map(s => '<option value="' + s + '">' + s + '</option>').join('') +
+      '</select></div>' +
       '<div class="qty-row">' +
         '<button type="button" data-qty-minus>−</button>' +
         '<input type="number" id="qty" value="1" min="1" max="10">' +
         '<button type="button" data-qty-plus>+</button>' +
       '</div>' +
-      '<button class="btn btn-block" id="add-btn">カートに追加</button>' +
+      '<div style="display:flex; gap:10px">' +
+        '<button class="btn btn-block" id="add-btn">カートに追加</button>' +
+        '<button class="btn-outline btn" id="wish-btn" style="flex-shrink:0; padding:14px 20px">♡</button>' +
+      '</div>' +
     '</div>';
 
   // view_item イベント(ページ表示時に1回)
@@ -94,10 +116,24 @@
 
   document.getElementById("add-btn").addEventListener("click", function () {
     const qty = Math.max(1, parseInt(qtyInput.value || 1));
-    addToCart(product, qty);
-    trackAddToCart(product, qty);
+    const color = document.getElementById("opt-color").value;
+    const size = document.getElementById("opt-size").value;
+    const variant = color + " / " + size;
+    addToCart(product, qty, variant);
+    trackAddToCart(product, qty, variant);
     this.textContent = "カートに追加しました";
     setTimeout(() => { this.textContent = "カートに追加"; }, 1200);
+  });
+
+  const wishBtn = document.getElementById("wish-btn");
+  function refreshWishBtn() {
+    wishBtn.textContent = isInWishlist(product.id) ? "♥" : "♡";
+  }
+  refreshWishBtn();
+  wishBtn.addEventListener("click", function () {
+    const added = toggleWishlist(product);
+    if (added) trackAddToWishlist(product);
+    refreshWishBtn();
   });
 </script>
 </body>

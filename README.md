@@ -19,6 +19,7 @@ GA4学習・イベントシミュレーション用のダミーECサイトです
 - journal.html
 - search.html
 - 404.html
+- wishlist.html
 
 置き換え例(Macのターミナル/GitHub CodespacesなどLinux系シェルの場合):
 
@@ -78,6 +79,18 @@ grep -rl "G-XXXXXXXXXX" . | xargs sed -i '' 's/G-XXXXXXXXXX/G-あなたの測定
 | video_complete(独自) | 動画の再生が終了した時 | video_title, video_provider, video_url |
 | view_search_results | サイト内検索の実行時 | search_term, results_count |
 | page_not_found(独自) | 存在しないURLにアクセスした時(404ページ) | page_path, page_referrer |
+| add_to_wishlist | お気に入りボタンクリック時 | value, items[] |
+| refund | サンクスページの「返品する」クリック時 | transaction_id, value, items[] |
+| consent_choice(独自) | Cookie同意バナーで選択した時 | consent_choice(granted/denied) |
+
+**バリアント(色・サイズ)について**
+商品詳細ページでカラー・サイズを選択できます。選択内容は`add_to_cart`・`purchase`などのitemsに`item_variant`パラメータ(例: "ブラック / M")として送信されます。
+
+**クーポンについて**
+チェックアウトページでクーポンコード `WELCOME10`(10%割引)を試せます。適用すると`purchase`イベントの`coupon`パラメータと、割引後の`value`が送信されます。
+
+**Cookie同意バナー(Consent Mode)について**
+初回アクセス時に画面下部にバナーが表示されます。「同意する/拒否する」の選択に応じて`gtag('consent','update',...)`が呼ばれ、GA4の計測が制御されます(学習用のため、選択に関わらず基本的なイベント自体は送信されるよう独自イベント`consent_choice`も別途送っています)。選択はlocalStorageに保存され、次回以降バナーは表示されません。テストのやり直しをしたい場合は、ブラウザの開発者ツールでlocalStorageの`closetlab_consent_v1`キーを削除してください。
 
 すべて `js/analytics.js` の `sendEvent()` を経由しています。
 新しいイベントを試したい場合は、この関数を呼び出す形で追加してください。

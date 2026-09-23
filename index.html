@@ -15,6 +15,13 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-BQ4DZSXQY0');
 </script>
@@ -44,6 +51,7 @@
       <a href="cart.html" class="cart-link">
         カート <span class="cart-badge" data-cart-badge>0</span>
       </a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
       <button class="menu-btn" data-menu-btn aria-label="メニュー">☰</button>
     </div>
   </div>
@@ -55,6 +63,7 @@
     <a href="index.html#journal">JOURNAL</a>
     <a href="index.html#faq">FAQ</a>
     <a href="contact.html">CONTACT</a>
+    <a href="wishlist.html">お気に入り</a>
   </div>
 </header>
 
@@ -167,7 +176,9 @@
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
+<script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
   // ラインナップ描画 + view_item_list / select_item イベント
@@ -184,6 +195,7 @@
         '<div class="product-actions">' +
           '<a class="btn-outline btn" href="product.html?id=' + p.id + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
           '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
+          '<button class="btn-outline btn" data-quick-wish="' + p.id + '" style="flex:0 0 auto; padding:10px 14px">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
         '</div>' +
       '</div>';
     grid.appendChild(card);
@@ -200,10 +212,17 @@
     const quickAdd = e.target.closest("[data-quick-add]");
     if (quickAdd) {
       const p = getProductById(quickAdd.getAttribute("data-quick-add"));
-      addToCart(p, 1);
-      trackAddToCart(p, 1);
+      addToCart(p, 1, "標準");
+      trackAddToCart(p, 1, "標準");
       quickAdd.textContent = "追加しました";
       setTimeout(() => quickAdd.textContent = "カートに追加", 1200);
+    }
+    const quickWish = e.target.closest("[data-quick-wish]");
+    if (quickWish) {
+      const p = getProductById(quickWish.getAttribute("data-quick-wish"));
+      const added = toggleWishlist(p);
+      if (added) trackAddToWishlist(p);
+      quickWish.textContent = added ? "♥" : "♡";
     }
   });
 

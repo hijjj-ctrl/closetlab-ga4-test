@@ -13,6 +13,13 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-BQ4DZSXQY0');
 </script>
@@ -35,6 +42,7 @@
         </form>
       </div>
       <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
     </div>
   </div>
 </header>
@@ -57,7 +65,9 @@
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
+<script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
   function render() {
@@ -67,13 +77,13 @@
       root.innerHTML = '<div class="empty-state">カートは空です。<br><br><a href="index.html#lineup" class="btn">商品を見る</a></div>';
       return;
     }
-    let rows = cart.map(function (c) {
-      return '<tr data-row="' + c.id + '">' +
-        '<td>' + c.name + '</td>' +
+    let rows = cart.map(function (c, index) {
+      return '<tr data-row="' + index + '">' +
+        '<td>' + c.name + (c.variant ? '<br><span style="color:var(--text-soft);font-size:12px">' + c.variant + '</span>' : '') + '</td>' +
         '<td>¥' + c.price.toLocaleString() + '</td>' +
-        '<td><input type="number" min="1" max="10" value="' + c.qty + '" data-qty-input="' + c.id + '" style="width:56px"></td>' +
+        '<td><input type="number" min="1" max="10" value="' + c.qty + '" data-qty-input="' + index + '" style="width:56px"></td>' +
         '<td>¥' + (c.price * c.qty).toLocaleString() + '</td>' +
-        '<td><button data-remove="' + c.id + '" class="btn-outline btn" style="padding:6px 10px;font-size:12px">削除</button></td>' +
+        '<td><button data-remove="' + index + '" class="btn-outline btn" style="padding:6px 10px;font-size:12px">削除</button></td>' +
         '</tr>';
     }).join("");
 
@@ -103,8 +113,8 @@
   document.getElementById("cart-root").addEventListener("change", function (e) {
     const qtyInput = e.target.closest("[data-qty-input]");
     if (qtyInput) {
-      const id = qtyInput.getAttribute("data-qty-input");
-      updateQuantity(id, parseInt(qtyInput.value || 1));
+      const index = parseInt(qtyInput.getAttribute("data-qty-input"));
+      updateQuantityAt(index, parseInt(qtyInput.value || 1));
       render();
     }
   });
@@ -112,10 +122,10 @@
   document.getElementById("cart-root").addEventListener("click", function (e) {
     const removeBtn = e.target.closest("[data-remove]");
     if (removeBtn) {
-      const id = removeBtn.getAttribute("data-remove");
-      const item = getCart().find(c => c.id === id);
+      const index = parseInt(removeBtn.getAttribute("data-remove"));
+      const item = getCart()[index];
       if (item) trackRemoveFromCart({ sku: item.sku, name: item.name, category: item.category, price: item.price }, item.qty);
-      removeFromCart(id);
+      removeFromCartAt(index);
       render();
     }
   });

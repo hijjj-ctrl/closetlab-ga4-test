@@ -13,6 +13,13 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-BQ4DZSXQY0');
 </script>
@@ -30,6 +37,7 @@
         </form>
       </div>
       <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
     </div>
   </div>
 </header>
@@ -47,6 +55,9 @@
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/consent.js"></script>
 <script>
   const order = JSON.parse(sessionStorage.getItem("last_order") || "null");
   const root = document.getElementById("thanks-root");
@@ -54,7 +65,19 @@
     root.innerHTML +=
       '<p>注文番号</p><div class="order-id">' + order.transactionId + '</div>' +
       '<p>お支払い合計: ¥' + order.total.toLocaleString() + '</p>' +
-      '<div style="margin-top:32px"><a href="index.html" class="btn">トップページへ戻る</a></div>';
+      '<div style="margin-top:32px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap">' +
+        '<a href="index.html" class="btn">トップページへ戻る</a>' +
+        '<button id="refund-btn" class="btn-outline btn">この注文を返品する(ダミー)</button>' +
+      '</div>' +
+      '<p id="refund-message" style="margin-top:16px; color:var(--text-soft); font-size:13px"></p>';
+
+    document.getElementById("refund-btn").addEventListener("click", function () {
+      trackRefund(order.transactionId, order.total, order.items || []);
+      document.getElementById("refund-message").textContent =
+        "返品を受け付けました(ダミー処理・実際の返金は発生しません)。GA4に refund イベントが送信されました。";
+      this.disabled = true;
+      this.textContent = "返品受付済み";
+    });
   } else {
     root.innerHTML += '<p style="margin-top:24px"><a href="index.html" class="btn">トップページへ戻る</a></p>';
   }

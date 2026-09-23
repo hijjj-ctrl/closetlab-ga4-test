@@ -13,6 +13,13 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-BQ4DZSXQY0');
 </script>
@@ -31,6 +38,7 @@
         </form>
       </div>
       <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
     </div>
   </div>
 </header>
@@ -57,7 +65,9 @@
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
+<script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
   const cart = getCart();
@@ -88,8 +98,18 @@
           '</div>' +
         '</div>' +
 
+        '<div class="form-group">' +
+          '<label>クーポンコード(お持ちの方のみ・お試し用: WELCOME10)</label>' +
+          '<div style="display:flex; gap:8px">' +
+            '<input type="text" id="coupon-input" placeholder="クーポンコードを入力" style="flex:1">' +
+            '<button type="button" id="coupon-apply" class="btn-outline btn" style="flex-shrink:0">適用</button>' +
+          '</div>' +
+          '<p id="coupon-message" style="font-size:12px; margin-top:6px; color:var(--text-soft)"></p>' +
+        '</div>' +
+
         '<div class="cart-summary" style="margin:0 0 24px">' +
           '<div class="summary-row"><span>商品合計</span><span>¥' + total.toLocaleString() + '</span></div>' +
+          '<div class="summary-row" id="discount-row" style="display:none"><span>クーポン割引</span><span id="discount-amount">−¥0</span></div>' +
           '<div class="summary-row" id="shipping-fee-row"><span>送料</span><span id="shipping-fee">¥0</span></div>' +
           '<div class="summary-row total"><span>合計</span><span id="grand-total">¥' + total.toLocaleString() + '</span></div>' +
         '</div>' +
@@ -100,6 +120,14 @@
     const form = document.getElementById("checkout-form");
     const shippingFeeEl = document.getElementById("shipping-fee");
     const grandTotalEl = document.getElementById("grand-total");
+    const discountRow = document.getElementById("discount-row");
+    const discountAmountEl = document.getElementById("discount-amount");
+    const couponMessage = document.getElementById("coupon-message");
+
+    // 学習用の固定クーポンコード(実際の決済処理はありません)
+    const VALID_COUPONS = { "WELCOME10": 0.10 };
+    let appliedCoupon = null;
+    let discountAmount = 0;
 
     function currentShippingFee() {
       const v = form.querySelector('input[name="shipping"]:checked').value;
@@ -108,8 +136,27 @@
     function refreshTotal() {
       const fee = currentShippingFee();
       shippingFeeEl.textContent = "¥" + fee.toLocaleString();
-      grandTotalEl.textContent = "¥" + (total + fee).toLocaleString();
+      grandTotalEl.textContent = "¥" + (total + fee - discountAmount).toLocaleString();
     }
+
+    document.getElementById("coupon-apply").addEventListener("click", function () {
+      const code = document.getElementById("coupon-input").value.trim().toUpperCase();
+      if (VALID_COUPONS[code]) {
+        appliedCoupon = code;
+        discountAmount = Math.round(total * VALID_COUPONS[code]);
+        discountRow.style.display = "flex";
+        discountAmountEl.textContent = "−¥" + discountAmount.toLocaleString();
+        couponMessage.textContent = "クーポン「" + code + "」を適用しました。";
+        couponMessage.style.color = "var(--accent)";
+      } else {
+        appliedCoupon = null;
+        discountAmount = 0;
+        discountRow.style.display = "none";
+        couponMessage.textContent = "ご利用いただけないクーポンコードです。";
+        couponMessage.style.color = "#B3261E";
+      }
+      refreshTotal();
+    });
 
     form.querySelectorAll('input[name="shipping"]').forEach(function (el) {
       el.addEventListener("change", function () {
@@ -128,11 +175,12 @@
       const fee = currentShippingFee();
       const transactionId = "T" + Date.now();
 
-      trackPurchase(transactionId, cart, fee);
+      trackPurchase(transactionId, cart, fee, appliedCoupon, discountAmount);
 
       sessionStorage.setItem("last_order", JSON.stringify({
         transactionId: transactionId,
-        total: total + fee
+        total: total + fee - discountAmount,
+        items: cart
       }));
       clearCart();
 
