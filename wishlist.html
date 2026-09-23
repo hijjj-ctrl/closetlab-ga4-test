@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/style.css">
 
 <!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQ4DZSXQY0"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -22,7 +22,7 @@
     analytics_storage: 'denied'
   });
   gtag('js', new Date());
-  gtag('config', 'G-BQ4DZSXQY0');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 <!-- ▲▲ ここまで ▲▲ -->
 </head>
@@ -75,7 +75,7 @@
     }
     root.innerHTML = '<div class="product-grid">' + list.map(function (w) {
       return '<div class="product-card">' +
-        '<div class="product-thumb" style="background:' + w.color + '"></div>' +
+        '<div class="product-thumb" style="background:' + w.color + '"><img src="' + w.image + '" alt="' + w.name + '" onerror="this.remove()"></div>' +
         '<div class="product-body">' +
           '<h3>' + w.name + '</h3>' +
           '<div class="product-price">¥' + w.price.toLocaleString() + '</div>' +
