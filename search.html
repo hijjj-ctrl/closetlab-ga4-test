@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>検索結果 | TONE LAB - Dummy for GA4</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- ▼▼ GA4 計測タグ: G-XXXXXXXXXX を実際の測定IDに置き換えてください ▼▼ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<!-- ▲▲ ここまで ▲▲ -->
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">TONE LAB</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#lineup">LINEUP</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">カート <span class="cart-badge" data-cart-badge>0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="container page-header">
+  <div class="breadcrumb"><a href="index.html">HOME</a> / 検索結果</div>
+  <h1>サイト内検索</h1>
+</div>
+
+<div class="container" style="max-width:680px; padding-bottom:96px">
+  <form id="search-form" style="display:flex; gap:8px; margin-bottom:40px" method="get" action="search.html">
+    <input type="text" name="q" id="search-input" placeholder="商品名や記事タイトルで検索" style="flex:1; padding:12px 14px; border:1px solid var(--border); border-radius:2px; font-size:14px; font-family:var(--font-body)">
+    <button type="submit" class="btn">検索</button>
+  </form>
+  <div id="search-results"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 TONE LAB (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/journal.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const query = (params.get("q") || "").trim();
+  const resultsEl = document.getElementById("search-results");
+  document.getElementById("search-input").value = query;
+
+  if (query) {
+    const q = query.toLowerCase();
+    const productHits = PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+    const journalHits = JOURNAL_POSTS.filter(p => p.title.toLowerCase().includes(q));
+    const totalHits = productHits.length + journalHits.length;
+
+    let html = '<p style="color:var(--text-soft);font-size:13px;margin-bottom:24px">「' + query + '」の検索結果:' + totalHits + '件</p>';
+
+    if (productHits.length) {
+      html += '<h3 style="font-size:14px;letter-spacing:0.05em;color:var(--olive);margin-bottom:12px">商品</h3>';
+      html += '<div class="journal-list" style="margin-bottom:32px">';
+      productHits.forEach(p => {
+        html += '<a class="journal-item" href="product.html?id=' + p.id + '"><span class="journal-thumb" style="background:' + p.color + '"></span><span>' + p.name + '<br><span style="color:var(--text-soft);font-size:12px">¥' + p.price.toLocaleString() + '</span></span></a>';
+      });
+      html += '</div>';
+    }
+
+    if (journalHits.length) {
+      html += '<h3 style="font-size:14px;letter-spacing:0.05em;color:var(--olive);margin-bottom:12px">JOURNAL記事</h3>';
+      html += '<div class="journal-list">';
+      journalHits.forEach(p => {
+        html += '<a class="journal-item" href="journal.html?id=' + p.id + '"><span class="journal-date">' + p.date + '</span><span><span class="journal-tag">' + p.tag + '</span>' + p.title + '</span></a>';
+      });
+      html += '</div>';
+    }
+
+    if (totalHits === 0) {
+      html += '<p style="color:var(--text-soft)">該当する結果が見つかりませんでした。別のキーワードでお試しください。</p>';
+    }
+
+    resultsEl.innerHTML = html;
+
+    // GA4推奨イベント: view_search_results
+    sendEvent("view_search_results", {
+      search_term: query,
+      results_count: totalHits
+    });
+  }
+</script>
+</body>
+</html>
