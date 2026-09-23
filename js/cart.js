@@ -18,9 +18,10 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
-function addToCart(product, quantity) {
+function addToCart(product, quantity, variant) {
   const cart = getCart();
-  const existing = cart.find(c => c.id === product.id);
+  // バリアント(色・サイズ)が異なる場合は別行として扱う
+  const existing = cart.find(c => c.id === product.id && c.variant === (variant || ""));
   if (existing) {
     existing.qty += quantity;
   } else {
@@ -30,23 +31,23 @@ function addToCart(product, quantity) {
       name: product.name,
       category: product.category,
       price: product.price,
-      qty: quantity
+      qty: quantity,
+      variant: variant || ""
     });
   }
   saveCart(cart);
 }
 
-function removeFromCart(productId) {
-  let cart = getCart();
-  cart = cart.filter(c => c.id !== productId);
+function removeFromCartAt(index) {
+  const cart = getCart();
+  cart.splice(index, 1);
   saveCart(cart);
 }
 
-function updateQuantity(productId, quantity) {
+function updateQuantityAt(index, quantity) {
   const cart = getCart();
-  const item = cart.find(c => c.id === productId);
-  if (item) {
-    item.qty = Math.max(1, quantity);
+  if (cart[index]) {
+    cart[index].qty = Math.max(1, quantity);
   }
   saveCart(cart);
 }

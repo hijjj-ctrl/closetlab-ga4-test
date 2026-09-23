@@ -43,11 +43,19 @@ function trackViewItem(product) {
   });
 }
 
-function trackAddToCart(product, quantity) {
+function trackAddToCart(product, quantity, variant) {
   sendEvent("add_to_cart", {
     currency: "JPY",
     value: product.price * quantity,
-    items: [toGA4Item(product, quantity)]
+    items: [Object.assign(toGA4Item(product, quantity), variant ? { item_variant: variant } : {})]
+  });
+}
+
+function trackAddToWishlist(product) {
+  sendEvent("add_to_wishlist", {
+    currency: "JPY",
+    value: product.price,
+    items: [toGA4Item(product, 1)]
   });
 }
 
@@ -69,6 +77,7 @@ function trackViewCart(cartItems) {
       item_name: c.name,
       item_category: c.category,
       item_brand: "TONE LAB",
+      item_variant: c.variant || undefined,
       price: c.price,
       quantity: c.qty
     }))
@@ -85,6 +94,7 @@ function trackBeginCheckout(cartItems) {
       item_name: c.name,
       item_category: c.category,
       item_brand: "TONE LAB",
+      item_variant: c.variant || undefined,
       price: c.price,
       quantity: c.qty
     }))
@@ -115,16 +125,32 @@ function trackAddPaymentInfo(cartItems, paymentType) {
   });
 }
 
-function trackPurchase(transactionId, cartItems, shippingFee) {
+function trackPurchase(transactionId, cartItems, shippingFee, coupon, discount) {
   const itemsValue = cartItems.reduce((sum, c) => sum + c.price * c.qty, 0);
-  sendEvent("purchase", {
+  const params = {
     transaction_id: transactionId,
     currency: "JPY",
-    value: itemsValue + (shippingFee || 0),
+    value: itemsValue + (shippingFee || 0) - (discount || 0),
     shipping: shippingFee || 0,
     items: cartItems.map(c => ({
       item_id: c.sku, item_name: c.name, item_category: c.category,
-      item_brand: "TONE LAB", price: c.price, quantity: c.qty
+      item_brand: "TONE LAB", item_variant: c.variant || undefined,
+      price: c.price, quantity: c.qty
+    }))
+  };
+  if (coupon) {
+    params.coupon = coupon;
+  }
+  sendEvent("purchase", params);
+}
+
+function trackRefund(transactionId, value, cartItems) {
+  sendEvent("refund", {
+    transaction_id: transactionId,
+    currency: "JPY",
+    value: value,
+    items: (cartItems || []).map(c => ({
+      item_id: c.sku, item_name: c.name, price: c.price, quantity: c.qty
     }))
   });
 }
