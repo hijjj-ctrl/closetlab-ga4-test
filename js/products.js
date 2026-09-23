@@ -43,6 +43,26 @@ const PRODUCTS = [
     color: "#606060",
     desc: "軽量でやわらかなレザー素材。長時間歩いても疲れにくい設計です。",
     image: "assets/images/product-4.jpg"
+  },
+  {
+    id: "5",
+    sku: "SKU005",
+    name: "カシミアのモヘアセーター",
+    category: "トップス",
+    price: 20000,
+    color: "#B8B8B8",
+    desc: "ふんわりと柔らかなモヘア混カシミア。軽やかな着心地でありながら、ちゃんと暖かい。ゆったりとしたシルエットがエレガント。",
+    image: "assets/images/product-5.jpg"
+  },
+  {
+    id: "6",
+    sku: "SKU006",
+    name: "カシミアのウールコート",
+    category: "アウター",
+    price: 55000,
+    color: "#D8D8D8",
+    desc: "カシミアとウールを贅沢にブレンドした、しなやかで上質な一着。ベルトで絞ったウエストラインが、女性らしいシルエットを描きます。長く愛用したい、冬の定番アウター。",
+    image: "assets/images/product-6.jpg"
   }
 ];
 

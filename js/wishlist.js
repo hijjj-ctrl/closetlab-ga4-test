@@ -31,7 +31,8 @@ function addToWishlist(product) {
       name: product.name,
       category: product.category,
       price: product.price,
-      color: product.color
+      color: product.color,
+      image: product.image
     });
     saveWishlist(list);
   }
