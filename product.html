@@ -6,33 +6,57 @@
 <title>商品詳細 | TONE LAB - Dummy for GA4</title>
 <link rel="icon" type="image/png" href="assets/images/favicon.png">
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://tagassistant.google.com; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://*.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com; frame-src https://www.googletagmanager.com;">
 <link rel="stylesheet" href="css/style.css">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DK5TSW3TGE"></script>
+<!-- ▼▼ 計測: Googleタグマネージャー (GTM-KVGTX6H4) ▼▼
+     ・GA4(測定ID G-BQ4DZSXQY0)への送信は、GTMのタグが行います。このページからgtag.jsは直接読み込みません。
+     ・同意モード(Consent Mode)の既定値は、GTMより先に宣言する必要があるため、この順番で置いています。 -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied'
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-DK5TSW3TGE');
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく(過去に同意済みなら最初から granted)
+  (function () {
+    var c = "denied";
+    try {
+      var s = JSON.parse(localStorage.getItem("closetlab_consent_v1"));
+      if (s && s.choice === "granted") c = "granted";
+    } catch (e) {}
+    gtag("consent", "default", {
+      ad_storage: c,
+      ad_user_data: c,
+      ad_personalization: c,
+      analytics_storage: c
+    });
+  })();
 </script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KVGTX6H4');</script>
+<!-- End Google Tag Manager -->
+<!-- ▲▲ ここまで ▲▲ -->
+
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVGTX6H4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 
 <header class="site-header">
   <div class="container">
     <a href="index.html" class="logo">TONE LAB</a>
     <nav class="main-nav">
       <a href="index.html">HOME</a>
+      <a href="index.html#concept">CONCEPT</a>
       <a href="index.html#lineup">LINEUP</a>
-      <a href="cart.html">CART</a>
+      <a href="assets/pdf/catalog.pdf">CATALOG</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="index.html#faq">FAQ</a>
       <a href="contact.html">CONTACT</a>
     </nav>
     <div class="header-actions">
@@ -44,7 +68,18 @@
       </div>
       <a href="cart.html" class="cart-link" aria-label="カート">🛍 <span class="cart-badge" data-cart-badge>0</span></a>
       <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
+      <button class="menu-btn" data-menu-btn aria-label="メニュー">☰</button>
     </div>
+  </div>
+  <div class="menu-panel" data-menu-panel>
+    <a href="index.html">HOME</a>
+    <a href="index.html#journal">JOURNAL</a>
+    <a href="wishlist.html">お気に入り</a>
+    <a href="index.html#lineup">LINEUP</a>
+    <a href="assets/pdf/catalog.pdf">CATALOG</a>
+    <a href="index.html#concept">CONCEPT</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="contact.html">CONTACT</a>
   </div>
 </header>
 
@@ -54,6 +89,7 @@
 
 <div class="container">
   <div class="pd-grid" id="pd-root"></div>
+  <section class="related" id="related-root"></section>
 </div>
 
 <div style="height:96px"></div>
@@ -77,8 +113,9 @@
   document.title = product.name + " | TONE LAB - Dummy for GA4";
   document.getElementById("bc-name").textContent = product.name;
 
-  const COLOR_OPTIONS = ["ブラック", "チャコールグレー", "オフホワイト"];
-  const SIZE_OPTIONS = ["S", "M", "L"];
+  // カラー・サイズは商品ごとに js/products.js で設定しています
+  const COLOR_OPTIONS = product.colors;
+  const SIZE_OPTIONS = product.sizes;
 
   document.getElementById("pd-root").innerHTML =
     '<div class="pd-visual" style="background:' + product.color + '"><img src="' + product.image + '" alt="' + product.name + '" onerror="this.remove()"></div>' +
@@ -135,6 +172,25 @@
     if (added) trackAddToWishlist(product);
     refreshWishBtn();
   });
+
+  // ---------- 関連商品(同じカテゴリを優先して4点) ----------
+  (function () {
+    const same = PRODUCTS.filter(function (p) { return p.id !== product.id && p.category === product.category; });
+    const others = PRODUCTS.filter(function (p) { return p.id !== product.id && p.category !== product.category; });
+    const related = same.concat(others).slice(0, 4);
+    const root = document.getElementById("related-root");
+    root.innerHTML = '<h2>あわせて見たい</h2><div class="product-grid">' + related.map(function (p) {
+      return '<a class="product-card" href="product.html?id=' + p.id + '" data-related="' + p.id + '">' +
+        '<div class="product-thumb" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></div>' +
+        '<div class="product-body"><span class="product-cat">' + p.category + '</span><h3>' + p.name + '</h3>' +
+        '<div class="product-price">¥' + p.price.toLocaleString() + '</div></div></a>';
+    }).join("") + '</div>';
+    trackViewItemList(related, "関連商品");
+    root.addEventListener("click", function (e) {
+      const a = e.target.closest("[data-related]");
+      if (a) trackSelectItem(getProductById(a.getAttribute("data-related")), "関連商品");
+    });
+  })();
 </script>
 </body>
 </html>

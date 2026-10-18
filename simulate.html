@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>イベントシミュレーター | TONE LAB - Dummy for GA4</title>
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://tagassistant.google.com; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://*.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com https://i.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com; frame-src https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- ▼▼ 計測: Googleタグマネージャー (GTM-KVGTX6H4) ▼▼
+     ・GA4(測定ID G-BQ4DZSXQY0)への送信は、GTMのタグが行います。このページからgtag.jsは直接読み込みません。
+     ・同意モード(Consent Mode)の既定値は、GTMより先に宣言する必要があるため、この順番で置いています。 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく(過去に同意済みなら最初から granted)
+  (function () {
+    var c = "denied";
+    try {
+      var s = JSON.parse(localStorage.getItem("closetlab_consent_v1"));
+      if (s && s.choice === "granted") c = "granted";
+    } catch (e) {}
+    gtag("consent", "default", {
+      ad_storage: c,
+      ad_user_data: c,
+      ad_personalization: c,
+      analytics_storage: c
+    });
+  })();
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KVGTX6H4');</script>
+<!-- End Google Tag Manager -->
+<!-- ▲▲ ここまで ▲▲ -->
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVGTX6H4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">TONE LAB</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="index.html#lineup">LINEUP</a>
+      <a href="assets/pdf/catalog.pdf">CATALOG</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <form action="search.html" method="get">
+          <input type="text" name="q" placeholder="商品やJOURNALを検索" aria-label="サイト内検索">
+          <button type="submit" aria-label="検索">🔍</button>
+        </form>
+      </div>
+      <a href="cart.html" class="cart-link" aria-label="カート">🛍 <span class="cart-badge" data-cart-badge>0</span></a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
+      <button class="menu-btn" data-menu-btn aria-label="メニュー">☰</button>
+    </div>
+  </div>
+  <div class="menu-panel" data-menu-panel>
+    <a href="index.html">HOME</a>
+    <a href="index.html#journal">JOURNAL</a>
+    <a href="wishlist.html">お気に入り</a>
+    <a href="index.html#lineup">LINEUP</a>
+    <a href="assets/pdf/catalog.pdf">CATALOG</a>
+    <a href="index.html#concept">CONCEPT</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+</header>
+
+<div class="container page-header">
+  <div class="breadcrumb"><a href="index.html">HOME</a> / イベントシミュレーター</div>
+  <h1>イベントシミュレーター</h1>
+</div>
+
+<div class="container" style="max-width:820px; padding-bottom:96px">
+  <div class="notice-box">
+    学習用に、GA4へ<strong>eコマースのイベントを、まとめて自動送信</strong>するページです。買い物客の行動(一覧閲覧→商品選択→カート→購入など)を、ランダムに再現します。<br>
+    送るイベントには、<code>simulated=true</code> と、1回の買い物ごとのID <code>sim_run_id</code> を付けています。本物のアクセスと分けて分析したいときは、GA4でこのパラメータをカスタムディメンション(イベントスコープ)に登録して使ってください。<br>
+    <strong>注意:</strong> すべて、このブラウザ1台から送るため、「ユーザー数」は増えず、イベント数・購入数・売上などが増えます。カートやお気に入りの中身は変わりません。
+  </div>
+
+  <div class="sim-panel">
+    <h2>1. ECフロー(買い物の流れ)を送る</h2>
+    <div class="sim-row">
+      <label>買い物客の人数
+        <select id="sim-runs">
+          <option value="1">1人</option>
+          <option value="3">3人</option>
+          <option value="5" selected>5人</option>
+          <option value="10">10人</option>
+          <option value="20">20人</option>
+          <option value="50">50人</option>
+        </select>
+      </label>
+      <label>送る速さ
+        <select id="sim-speed">
+          <option value="40">速い</option>
+          <option value="150" selected>ふつう</option>
+          <option value="400">ゆっくり(DebugViewで追いやすい)</option>
+        </select>
+      </label>
+    </div>
+    <div class="sim-row">
+      <button class="btn" id="sim-start-ec">ECフローを実行</button>
+      <button class="btn-outline btn" id="sim-start-browse">回遊イベントだけ送る</button>
+      <button class="btn-outline btn" id="sim-stop" disabled>停止</button>
+    </div>
+    <p style="font-size:12px;color:var(--text-soft);margin:0">
+      流れの目安: 一覧表示100% → 商品選択 → 商品詳細 →(お気に入り25%)→ カート追加65% → カート表示 → 購入手続き75% → 配送・支払い設定 → 購入85%(返金6%)
+    </p>
+  </div>
+
+  <div class="sim-panel">
+    <h2>送信状況</h2>
+    <div class="sim-stats">
+      <div class="sim-stat"><b id="st-events">0</b><span>イベント合計</span></div>
+      <div class="sim-stat"><b id="st-runs">0</b><span>買い物客</span></div>
+      <div class="sim-stat"><b id="st-cart">0</b><span>add_to_cart</span></div>
+      <div class="sim-stat"><b id="st-checkout">0</b><span>begin_checkout</span></div>
+      <div class="sim-stat"><b id="st-purchase">0</b><span>purchase</span></div>
+      <div class="sim-stat"><b id="st-revenue">¥0</b><span>購入額の合計</span></div>
+    </div>
+    <div class="sim-log" id="sim-log" aria-live="polite"></div>
+  </div>
+
+  <div class="sim-panel">
+    <h2>2. 流入元の違うリンクで開く(UTM付き)</h2>
+    <p style="font-size:13px;color:var(--text-soft);margin:0 0 14px">
+      クリックすると、トップページが、UTMパラメータ付きで開き、実際の page_view が増えます。GA4の「集客」レポートで、チャネル(Social / Email / Paid Search など)の違いを確認できます。
+    </p>
+    <div class="sim-links">
+      <a href="index.html?utm_source=instagram&utm_medium=social&utm_campaign=fw2026_look">Instagram(social)</a>
+      <a href="index.html?utm_source=newsletter&utm_medium=email&utm_campaign=site_renewal">メルマガ(email)</a>
+      <a href="index.html?utm_source=google&utm_medium=cpc&utm_campaign=brand_search">Google検索広告(cpc)</a>
+      <a href="index.html?utm_source=yahoo&utm_medium=display&utm_campaign=retargeting">ディスプレイ広告(display)</a>
+      <a href="index.html?utm_source=line&utm_medium=social&utm_campaign=welcome_coupon">LINE(social)</a>
+      <a href="product.html?id=6&utm_source=affiliate_a&utm_medium=affiliate&utm_campaign=winter_coat">アフィリエイト(コート)</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">
+    © 2026 TONE LAB (Dummy site for GA4 learning)<br>
+    本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/journal.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/consent.js"></script>
+<script>
+  // ============================================================
+  // イベントシミュレーター
+  // ・analytics.js の track***() / sendEvent() をそのまま使うので、
+  //   本物のサイトと同じ形のイベントが、dataLayer経由でGTM→GA4へ届きます。
+  // ・カート(localStorage)には一切触れません。
+  // ============================================================
+  const stats = { events: 0, runs: 0, cart: 0, checkout: 0, purchase: 0, revenue: 0 };
+  const state = { running: false, stop: false };
+  const logEl = document.getElementById("sim-log");
+  const delayEl = document.getElementById("sim-speed");
+
+  // sendEventを包んで、カウントとログ表示を追加(送信そのものは元の関数が行う)
+  const originalSendEvent = window.sendEvent;
+  window.sendEvent = function (name, params) {
+    originalSendEvent(name, params);
+    stats.events++;
+    if (name === "add_to_cart") stats.cart++;
+    if (name === "begin_checkout") stats.checkout++;
+    if (name === "purchase") {
+      stats.purchase++;
+      stats.revenue += (params && params.value) || 0;
+    }
+    refreshStats();
+    const ecom = ECOMMERCE_EVENTS.indexOf(name) !== -1;
+    addLog("  " + name, ecom ? "ev-ecom" : "");
+  };
+
+  function refreshStats() {
+    document.getElementById("st-events").textContent = stats.events;
+    document.getElementById("st-runs").textContent = stats.runs;
+    document.getElementById("st-cart").textContent = stats.cart;
+    document.getElementById("st-checkout").textContent = stats.checkout;
+    document.getElementById("st-purchase").textContent = stats.purchase;
+    document.getElementById("st-revenue").textContent = "¥" + stats.revenue.toLocaleString();
+  }
+  function addLog(text, cls) {
+    const line = document.createElement("div");
+    if (cls) line.className = cls;
+    line.textContent = text;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  // ---------- 乱数ヘルパー ----------
+  const rand = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const chance = p => Math.random() < p;
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  function sample(arr, n) {
+    const copy = arr.slice(), out = [];
+    while (out.length < n && copy.length) out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+    return out;
+  }
+  const sleep = () => new Promise(r => setTimeout(r, parseInt(delayEl.value, 10)));
+
+  // ---------- 回遊系イベント(買い物とは別の動き) ----------
+  async function browseEvents() {
+    if (chance(0.5)) {
+      const post = pick(JOURNAL_POSTS);
+      sendEvent("select_content", { content_type: "journal", item_id: post.id, content_title: post.title });
+      await sleep();
+    }
+    if (chance(0.3)) {
+      const term = pick(["コート", "ブーツ", "ニット", "スカート", "バッグ", "ワンピース", "マフラー"]);
+      const hits = PRODUCTS.filter(p => p.name.indexOf(term) !== -1 || p.category.indexOf(term) !== -1).length;
+      sendEvent("view_search_results", { search_term: term, results_count: hits });
+      await sleep();
+    }
+    if (chance(0.3)) {
+      sendEvent("faq_open", { question: pick(["注文から発送までどのくらいかかりますか？", "返品や交換は可能ですか？", "どのような支払い方法が利用できますか？", "自宅で洗濯できる素材かどうか確認できますか？"]) });
+      await sleep();
+    }
+    [25, 50, 75, 90].forEach(function (t) {
+      if (chance(0.7 - t / 200)) sendEvent("scroll_depth", { percent_scrolled: t, page_path: pick(["/", "/product.html", "/journal.html"]) });
+    });
+    if (chance(0.1)) {
+      sendEvent("file_download", { file_name: "catalog.pdf", link_url: "assets/pdf/catalog.pdf" });
+      await sleep();
+    }
+    if (chance(0.08)) {
+      sendEvent("click", { link_url: "https://www.instagram.com/", link_domain: "www.instagram.com", outbound: true });
+      await sleep();
+    }
+    if (chance(0.07)) {
+      sendEvent("form_start", { form_name: "contact_form" });
+      await sleep();
+      if (chance(0.5)) sendEvent("generate_lead", { lead_type: pick(["product", "order", "other"]), form_name: "contact_form" });
+    }
+  }
+
+  // ---------- 買い物客1人分のEC行動 ----------
+  async function runShopper(no, total) {
+    const runId = "R" + Date.now().toString(36).slice(-5) + no;
+    window.ANALYTICS_EXTRA_PARAMS = { simulated: "true", sim_run_id: runId };
+    addLog("--- 買い物客 " + no + " / " + total + " (" + runId + ") ---", "ev-run");
+
+    const cat = chance(0.4) ? pick(PRODUCT_CATEGORIES) : "ALL";
+    const base = "トップページ ラインナップ";
+    const listName = cat === "ALL" ? base : base + "(" + cat + ")";
+    const items = cat === "ALL" ? PRODUCTS : PRODUCTS.filter(p => p.category === cat);
+    if (cat !== "ALL") { sendEvent("filter_select", { filter_name: "category", filter_value: cat }); await sleep(); }
+    trackViewItemList(items, listName);
+    await sleep();
+
+    const cart = [];
+    for (const p of sample(items, rand(1, Math.min(3, items.length)))) {
+      if (state.stop) return;
+      trackSelectItem(p, listName); await sleep();
+      trackViewItem(p); await sleep();
+      if (chance(0.25)) { trackAddToWishlist(p); await sleep(); }
+      if (chance(0.65)) {
+        const variant = pick(p.colors) + " / " + pick(p.sizes);
+        const qty = chance(0.2) ? 2 : 1;
+        trackAddToCart(p, qty, variant);
+        cart.push({ id: p.id, sku: p.sku, name: p.name, category: p.category, price: p.price, qty: qty, variant: variant });
+        await sleep();
+      }
+    }
+    await browseEvents();
+
+    if (cart.length === 0) { addLog("  (カートに入れず離脱)"); return; }
+    if (chance(0.85)) { trackViewCart(cart); await sleep(); }
+    if (cart.length > 1 && chance(0.15)) {
+      const removed = cart.splice(rand(0, cart.length - 1), 1)[0];
+      trackRemoveFromCart(getProductById(removed.id), removed.qty);
+      await sleep();
+    }
+    if (!chance(0.75)) { addLog("  (購入手続きに進まず離脱)"); return; }
+    trackBeginCheckout(cart); await sleep();
+
+    const shipping = chance(0.25) ? "express" : "standard";
+    if (chance(0.9)) { trackAddShippingInfo(cart, shipping); await sleep(); }
+    const payment = pick(["credit_card", "cod"]);
+    if (chance(0.9)) { trackAddPaymentInfo(cart, payment); await sleep(); }
+    if (!chance(0.85)) { addLog("  (注文を確定せず離脱)"); return; }
+
+    const subtotal = cart.reduce((s, c) => s + c.price * c.qty, 0);
+    const coupon = chance(0.3) ? "WELCOME10" : null;
+    const discount = coupon ? Math.round(subtotal * 0.10) : 0;
+    const fee = shipping === "express" ? 500 : 0;
+    const txId = "SIM" + Date.now() + no;
+    trackPurchase(txId, cart, fee, coupon, discount);
+    await sleep();
+    if (chance(0.06)) {
+      trackRefund(txId, subtotal + fee - discount, cart);
+      await sleep();
+    }
+  }
+
+  function setRunning(on) {
+    state.running = on;
+    document.getElementById("sim-start-ec").disabled = on;
+    document.getElementById("sim-start-browse").disabled = on;
+    document.getElementById("sim-stop").disabled = !on;
+  }
+
+  document.getElementById("sim-start-ec").addEventListener("click", async function () {
+    if (state.running) return;
+    setRunning(true); state.stop = false;
+    const n = parseInt(document.getElementById("sim-runs").value, 10);
+    for (let i = 1; i <= n && !state.stop; i++) {
+      await runShopper(i, n);
+      stats.runs++; refreshStats();
+    }
+    window.ANALYTICS_EXTRA_PARAMS = {};
+    addLog(state.stop ? "■ 停止しました" : "■ 完了しました", "ev-run");
+    setRunning(false);
+  });
+
+  document.getElementById("sim-start-browse").addEventListener("click", async function () {
+    if (state.running) return;
+    setRunning(true); state.stop = false;
+    const n = parseInt(document.getElementById("sim-runs").value, 10);
+    for (let i = 1; i <= n && !state.stop; i++) {
+      window.ANALYTICS_EXTRA_PARAMS = { simulated: "true", sim_run_id: "B" + Date.now().toString(36).slice(-5) + i };
+      addLog("--- 回遊 " + i + " / " + n + " ---", "ev-run");
+      await browseEvents();
+      stats.runs++; refreshStats();
+    }
+    window.ANALYTICS_EXTRA_PARAMS = {};
+    addLog(state.stop ? "■ 停止しました" : "■ 完了しました", "ev-run");
+    setRunning(false);
+  });
+
+  document.getElementById("sim-stop").addEventListener("click", function () { state.stop = true; });
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

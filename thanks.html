@@ -6,29 +6,59 @@
 <title>ご注文ありがとうございます | TONE LAB - Dummy for GA4</title>
 <link rel="icon" type="image/png" href="assets/images/favicon.png">
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://tagassistant.google.com; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://*.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com; frame-src https://www.googletagmanager.com;">
 <link rel="stylesheet" href="css/style.css">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G-DK5TSW3TGE"></script>
+<!-- ▼▼ 計測: Googleタグマネージャー (GTM-KVGTX6H4) ▼▼
+     ・GA4(測定ID G-BQ4DZSXQY0)への送信は、GTMのタグが行います。このページからgtag.jsは直接読み込みません。
+     ・同意モード(Consent Mode)の既定値は、GTMより先に宣言する必要があるため、この順番で置いています。 -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied'
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-DK5TSW3TGE');
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく(過去に同意済みなら最初から granted)
+  (function () {
+    var c = "denied";
+    try {
+      var s = JSON.parse(localStorage.getItem("closetlab_consent_v1"));
+      if (s && s.choice === "granted") c = "granted";
+    } catch (e) {}
+    gtag("consent", "default", {
+      ad_storage: c,
+      ad_user_data: c,
+      ad_personalization: c,
+      analytics_storage: c
+    });
+  })();
 </script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KVGTX6H4');</script>
+<!-- End Google Tag Manager -->
+<!-- ▲▲ ここまで ▲▲ -->
+
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVGTX6H4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 
 <header class="site-header">
   <div class="container">
     <a href="index.html" class="logo">TONE LAB</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="index.html#lineup">LINEUP</a>
+      <a href="assets/pdf/catalog.pdf">CATALOG</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
     <div class="header-actions">
       <div class="header-search">
         <form action="search.html" method="get">
@@ -38,7 +68,18 @@
       </div>
       <a href="cart.html" class="cart-link" aria-label="カート">🛍 <span class="cart-badge" data-cart-badge>0</span></a>
       <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
+      <button class="menu-btn" data-menu-btn aria-label="メニュー">☰</button>
     </div>
+  </div>
+  <div class="menu-panel" data-menu-panel>
+    <a href="index.html">HOME</a>
+    <a href="index.html#journal">JOURNAL</a>
+    <a href="wishlist.html">お気に入り</a>
+    <a href="index.html#lineup">LINEUP</a>
+    <a href="assets/pdf/catalog.pdf">CATALOG</a>
+    <a href="index.html#concept">CONCEPT</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="contact.html">CONTACT</a>
   </div>
 </header>
 
@@ -58,6 +99,7 @@
 <script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
 <script src="js/consent.js"></script>
+<script src="js/main.js"></script>
 <script>
   const order = JSON.parse(sessionStorage.getItem("last_order") || "null");
   const root = document.getElementById("thanks-root");

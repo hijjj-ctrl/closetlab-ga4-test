@@ -7,27 +7,46 @@
 <link rel="icon" type="image/png" href="assets/images/favicon.png">
 <meta name="description" content="GA4の計測・分析練習用に作成したダミーサイトです。">
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://tagassistant.google.com; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://*.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com https://i.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com; frame-src https://www.googletagmanager.com;">
 <link rel="stylesheet" href="css/style.css">
 
-<!-- ▼▼ GA4 計測タグ: G-BQ4DZSXQY0 を実際の測定IDに置き換えてください ▼▼ -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DK5TSW3TGE"></script>
+<!-- ▼▼ 計測: Googleタグマネージャー (GTM-KVGTX6H4) ▼▼
+     ・GA4(測定ID G-BQ4DZSXQY0)への送信は、GTMのタグが行います。このページからgtag.jsは直接読み込みません。
+     ・同意モード(Consent Mode)の既定値は、GTMより先に宣言する必要があるため、この順番で置いています。 -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied'
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-DK5TSW3TGE');
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく(過去に同意済みなら最初から granted)
+  (function () {
+    var c = "denied";
+    try {
+      var s = JSON.parse(localStorage.getItem("closetlab_consent_v1"));
+      if (s && s.choice === "granted") c = "granted";
+    } catch (e) {}
+    gtag("consent", "default", {
+      ad_storage: c,
+      ad_user_data: c,
+      ad_personalization: c,
+      analytics_storage: c
+    });
+  })();
 </script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KVGTX6H4');</script>
+<!-- End Google Tag Manager -->
 <!-- ▲▲ ここまで ▲▲ -->
+
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVGTX6H4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 
 <header class="site-header">
   <div class="container">
@@ -55,11 +74,11 @@
   </div>
   <div class="menu-panel" data-menu-panel>
     <a href="index.html">HOME</a>
-    <a href="index.html#concept">CONCEPT</a>
+    <a href="index.html#journal">JOURNAL</a>
     <a href="wishlist.html">お気に入り</a>
     <a href="index.html#lineup">LINEUP</a>
     <a href="assets/pdf/catalog.pdf">CATALOG</a>
-    <a href="index.html#journal">JOURNAL</a>
+    <a href="index.html#concept">CONCEPT</a>
     <a href="index.html#faq">FAQ</a>
     <a href="contact.html">CONTACT</a>
   </div>
@@ -67,7 +86,7 @@
 
 <section class="hero">
   <div class="container">
-    <span class="news-pill">2026.08.23 2026 Fall-Winterの新作予約開始</span>
+    <a class="news-pill" href="journal.html?id=6" data-journal-id="6">2026.10.18 サイトリニューアル</a>
     <h1>わたしらしく、<br>旬をまとう。</h1>
     <p>毎日に寄り添う、心地よいベーシック。</p>
     <div class="hero-visual">
@@ -111,27 +130,34 @@
       <span class="eyebrow">LINEUP</span>
       <h2>ラインナップ</h2>
     </div>
+    <div class="cat-filter" id="cat-filter" role="group" aria-label="カテゴリで絞り込む"></div>
     <div class="product-grid" id="lineup-grid"></div>
   </div>
 </section>
 
-<section class="section section-alt" id="journal">
+<section class="section section-alt" id="catalog">
+  <div class="container">
+    <div class="catalog-banner">
+      <span class="eyebrow">CATALOG</span>
+      <h2>2026 Fall-Winter カタログ</h2>
+      <p>季節の景色の中で、モデルが商品をまとったルックブック形式のカタログ(PDF)です。</p>
+      <a class="btn" href="assets/pdf/catalog.pdf">カタログPDFを見る</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="journal">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">JOURNAL</span>
       <h2>最新情報</h2>
     </div>
     <div class="journal-list" id="journal-list">
-      <a class="journal-item" data-journal-id="5" href="journal.html?id=5"><span class="journal-thumb" style="background:#000"><img src="https://i.ytimg.com/vi/rrmbZ-tk2s4/hqdefault.jpg" alt="" onerror="this.remove()"></span><span class="journal-date">2026.09.14</span><span><span class="journal-tag">VIDEO</span>ブランドイメージ動画を公開しました</span></a>
-      <a class="journal-item" data-journal-id="1" href="journal.html?id=1"><span class="journal-thumb" style="background:#2B2B2B"><img src="assets/images/journal-1.jpg" alt="" onerror="this.remove()"></span><span class="journal-date">2026.08.23</span><span><span class="journal-tag">NEWS</span>2026 Fall-Winterの新作予約開始</span></a>
-      <a class="journal-item" data-journal-id="2" href="journal.html?id=2"><span class="journal-thumb" style="background:#4A4A4A"><img src="assets/images/journal-2.jpg" alt="" onerror="this.remove()"></span><span class="journal-date">2026.06.06</span><span><span class="journal-tag">NEWS</span>リボンブラウス 再入荷しました</span></a>
-      <a class="journal-item" data-journal-id="3" href="journal.html?id=3"><span class="journal-thumb" style="background:#606060"><img src="assets/images/journal-3.jpg" alt="" onerror="this.remove()"></span><span class="journal-date">2026.06.01</span><span><span class="journal-tag">NEWS</span>夏季休業期間中の配送について</span></a>
-      <a class="journal-item" data-journal-id="4" href="journal.html?id=4"><span class="journal-thumb" style="background:#1A1A1A"><img src="assets/images/journal-4.jpg" alt="" onerror="this.remove()"></span><span class="journal-date">2026.05.01</span><span><span class="journal-tag">CAMPAIGN</span>初回購入特典キャンペーン</span></a>
     </div>
   </div>
 </section>
 
-<section class="section" id="faq">
+<section class="section section-alt" id="faq">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">FAQ</span>
@@ -173,47 +199,78 @@
 </footer>
 
 <script src="js/products.js"></script>
+<script src="js/journal.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
 <script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
-  // ラインナップ描画 + view_item_list / select_item イベント
+  const LIST_NAME = "トップページ ラインナップ";
   const grid = document.getElementById("lineup-grid");
-  PRODUCTS.forEach(function (p) {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML =
-      '<div class="product-thumb" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></div>' +
-      '<div class="product-body">' +
-        '<h3>' + p.name + '</h3>' +
-        '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +
-        '<p class="product-desc">' + p.desc + '</p>' +
-        '<div class="product-actions">' +
-          '<a class="btn-outline btn" href="product.html?id=' + p.id + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
-          '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
-          '<button class="btn-outline btn" data-quick-wish="' + p.id + '" style="flex:0 0 auto; padding:10px 14px">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
+  const filterEl = document.getElementById("cat-filter");
+  let currentCategory = "ALL";
+
+  function listNameFor(cat) {
+    return cat === "ALL" ? LIST_NAME : LIST_NAME + "(" + cat + ")";
+  }
+
+  // ---------- カテゴリ絞り込みボタン ----------
+  filterEl.innerHTML = ["ALL"].concat(PRODUCT_CATEGORIES).map(function (c) {
+    return '<button type="button" data-cat="' + c + '">' + c + '</button>';
+  }).join("");
+
+  // ---------- ラインナップ描画 + view_item_list ----------
+  function renderGrid(cat) {
+    currentCategory = cat;
+    const items = cat === "ALL" ? PRODUCTS : PRODUCTS.filter(function (p) { return p.category === cat; });
+    grid.innerHTML = items.map(function (p) {
+      return '<div class="product-card">' +
+        '<div class="product-thumb" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></div>' +
+        '<div class="product-body">' +
+          '<span class="product-cat">' + p.category + '</span>' +
+          '<h3>' + p.name + '</h3>' +
+          '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +
+          '<p class="product-desc">' + p.desc + '</p>' +
+          '<div class="product-actions">' +
+            '<a class="btn-outline btn" href="product.html?id=' + p.id + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
+            '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
+            '<button class="btn-outline btn" data-quick-wish="' + p.id + '" style="flex:0 0 auto; padding:10px 14px">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
+          '</div>' +
         '</div>' +
       '</div>';
-    grid.appendChild(card);
+    }).join("");
+    filterEl.querySelectorAll("button").forEach(function (b) {
+      b.classList.toggle("is-active", b.getAttribute("data-cat") === cat);
+    });
+    trackViewItemList(items, listNameFor(cat));
+  }
+
+  filterEl.addEventListener("click", function (e) {
+    const btn = e.target.closest("button[data-cat]");
+    if (!btn) return;
+    const cat = btn.getAttribute("data-cat");
+    if (cat === currentCategory) return;
+    sendEvent("filter_select", { filter_name: "category", filter_value: cat });
+    renderGrid(cat);
   });
 
-  trackViewItemList(PRODUCTS, "トップページ ラインナップ");
+  renderGrid("ALL");
 
   grid.addEventListener("click", function (e) {
     const detailLink = e.target.closest("[data-view-detail]");
     if (detailLink) {
       const p = getProductById(detailLink.getAttribute("data-view-detail"));
-      trackSelectItem(p, "トップページ ラインナップ");
+      trackSelectItem(p, listNameFor(currentCategory));
     }
     const quickAdd = e.target.closest("[data-quick-add]");
     if (quickAdd) {
       const p = getProductById(quickAdd.getAttribute("data-quick-add"));
-      addToCart(p, 1, "標準");
-      trackAddToCart(p, 1, "標準");
+      const variant = p.colors[0] + " / " + p.sizes[Math.min(1, p.sizes.length - 1)];
+      addToCart(p, 1, variant);
+      trackAddToCart(p, 1, variant);
       quickAdd.textContent = "追加しました";
-      setTimeout(() => quickAdd.textContent = "カートに追加", 1200);
+      setTimeout(function () { quickAdd.textContent = "カートに追加"; }, 1200);
     }
     const quickWish = e.target.closest("[data-quick-wish]");
     if (quickWish) {
@@ -224,8 +281,17 @@
     }
   });
 
-  // Journal一覧のクリック計測(記事詳細へ遷移する前にイベント送信)
-  document.getElementById("journal-list").addEventListener("click", function (e) {
+  // ---------- Journal一覧(記事データは js/journal.js) ----------
+  document.getElementById("journal-list").innerHTML = JOURNAL_POSTS.map(function (post) {
+    return '<a class="journal-item" data-journal-id="' + post.id + '" href="journal.html?id=' + post.id + '">' +
+      '<span class="journal-thumb" style="background:' + (post.videoId ? '#000' : post.color) + '"><img src="' + journalThumbUrl(post) + '" alt="" onerror="this.remove()"></span>' +
+      '<span class="journal-date">' + post.date + '</span>' +
+      '<span><span class="journal-tag">' + post.tag + '</span>' + post.title + '</span>' +
+    '</a>';
+  }).join("");
+
+  // Journal一覧・最新ニュースのクリック計測(記事詳細へ遷移する前にイベント送信)
+  document.addEventListener("click", function (e) {
     const item = e.target.closest("[data-journal-id]");
     if (item) {
       sendEvent("select_content", {
