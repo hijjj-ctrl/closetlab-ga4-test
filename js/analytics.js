@@ -1,21 +1,48 @@
 // ============================================================
-// GA4イベント送信 共通モジュール
+// イベント送信 共通モジュール(GTM版)
 // ------------------------------------------------------------
-// ・すべてのGA4イベントはこのファイルの sendEvent() 経由で送信します。
+// ・すべてのイベントはこのファイルの sendEvent() 経由で、
+//   Googleタグマネージャー(GTM-KVGTX6H4)のdataLayerへ送ります。
+//   GA4への送信は、GTM側のタグ(GA4イベントタグ)が行います。
+// ・eコマース系イベントは、GA4標準の ecommerce オブジェクト形式で送ります。
+//     dataLayer.push({ ecommerce: null });
+//     dataLayer.push({ event: "purchase", ecommerce: { ... } });
+// ・それ以外のイベントは、パラメータをdataLayerの直下に平らに置いて送ります。
+//     dataLayer.push({ event: "scroll_depth", percent_scrolled: 25, ... });
 // ・新しいイベントを試したいときは、下に関数を追加するだけでOKです。
-// ・DEBUG = true にすると、送信内容がコンソールに表示されます
-//   (GA4のDebugViewと合わせて確認すると分かりやすいです)。
+//   (GTM側にも、そのイベント用のトリガーとタグが必要です)
+// ・ANALYTICS_DEBUG = true にすると、送信内容がコンソールに表示されます
+//   (GTMのプレビューモードやGA4のDebugViewと合わせて確認すると分かりやすいです)。
 // ============================================================
 
 const ANALYTICS_DEBUG = true;
 
+// ecommerceオブジェクトで送るイベント名(GA4推奨のeコマースイベント)
+const ECOMMERCE_EVENTS = [
+  "view_item_list", "select_item", "view_item", "add_to_cart", "add_to_wishlist",
+  "remove_from_cart", "view_cart", "begin_checkout", "add_shipping_info",
+  "add_payment_info", "purchase", "refund"
+];
+
+// ここに入れたパラメータは、すべてのイベントに自動で付与されます。
+// (シミュレーションページが simulated=true などを入れるために使います)
+window.ANALYTICS_EXTRA_PARAMS = window.ANALYTICS_EXTRA_PARAMS || {};
+
 function sendEvent(eventName, params) {
   params = params || {};
-  if (ANALYTICS_DEBUG) {
-    console.log("[GA4 event]", eventName, params);
+  const extra = window.ANALYTICS_EXTRA_PARAMS;
+  window.dataLayer = window.dataLayer || [];
+
+  if (ECOMMERCE_EVENTS.indexOf(eventName) !== -1) {
+    // 直前のecommerce情報が残らないよう、いったん空にしてから送る
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push(Object.assign({ event: eventName, ecommerce: params }, extra));
+  } else {
+    window.dataLayer.push(Object.assign({ event: eventName }, params, extra));
   }
-  if (typeof gtag === "function") {
-    gtag("event", eventName, params);
+
+  if (ANALYTICS_DEBUG) {
+    console.log("[dataLayer event]", eventName, params, extra);
   }
 }
 
