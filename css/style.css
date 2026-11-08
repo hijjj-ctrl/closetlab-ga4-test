@@ -188,6 +188,9 @@ body.menu-open .site-header { background: var(--bg); backdrop-filter: none; }
   color: rgba(255,255,255,0.9); font-size: 13px; letter-spacing: 0.08em; font-family: var(--font-display);
   overflow: hidden; position: relative;
 }
+a.product-thumb { display: block; }
+.product-name-link { color: inherit; }
+.product-name-link:hover { color: var(--accent); }
 .product-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .product-cat { font-size: 11px; letter-spacing: 0.15em; color: var(--olive); }
 .product-body { padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
