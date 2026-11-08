@@ -57,7 +57,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <nav class="main-nav">
       <a href="index.html">HOME</a>
       <a href="index.html#concept">CONCEPT</a>
-      <a href="index.html#lineup">LINEUP</a>
+      <a href="products.html">LINEUP</a>
       <a href="assets/pdf/catalog.pdf">CATALOG</a>
       <a href="index.html#journal">JOURNAL</a>
       <a href="index.html#faq">FAQ</a>
@@ -79,7 +79,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="index.html">HOME</a>
     <a href="index.html#journal">JOURNAL</a>
     <a href="wishlist.html">お気に入り</a>
-    <a href="index.html#lineup">LINEUP</a>
+    <a href="products.html">LINEUP</a>
     <a href="assets/pdf/catalog.pdf">CATALOG</a>
     <a href="index.html#concept">CONCEPT</a>
     <a href="index.html#faq">FAQ</a>
@@ -131,10 +131,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">LINEUP</span>
-      <h2>ラインナップ</h2>
+      <h2>ピックアップ</h2>
     </div>
-    <div class="cat-filter" id="cat-filter" role="group" aria-label="カテゴリで絞り込む"></div>
     <div class="product-grid" id="lineup-grid"></div>
+    <div class="center" style="margin-top:36px"><a href="products.html" class="btn" id="all-products-link">すべての商品を見る(全12点)</a></div>
   </div>
 </section>
 
@@ -185,7 +185,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <a href="index.html">HOME</a>
         <a href="index.html#concept">CONCEPT</a>
-        <a href="index.html#lineup">LINEUP</a>
+        <a href="products.html">LINEUP</a>
         <a href="index.html#faq">FAQ</a>
         <a href="contact.html">CONTACT</a>
       </div>
@@ -206,82 +206,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="js/cart.js"></script>
 <script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
+<script src="js/lineup.js"></script>
 <script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
-  const LIST_NAME = "トップページ ラインナップ";
-  const grid = document.getElementById("lineup-grid");
-  const filterEl = document.getElementById("cat-filter");
-  let currentCategory = "ALL";
-
-  function listNameFor(cat) {
-    return cat === "ALL" ? LIST_NAME : LIST_NAME + "(" + cat + ")";
-  }
-
-  // ---------- カテゴリ絞り込みボタン ----------
-  filterEl.innerHTML = ["ALL"].concat(PRODUCT_CATEGORIES).map(function (c) {
-    return '<button type="button" data-cat="' + c + '">' + c + '</button>';
-  }).join("");
-
-  // ---------- ラインナップ描画 + view_item_list ----------
-  function renderGrid(cat) {
-    currentCategory = cat;
-    const items = cat === "ALL" ? PRODUCTS : PRODUCTS.filter(function (p) { return p.category === cat; });
-    grid.innerHTML = items.map(function (p) {
-      return '<div class="product-card">' +
-        '<div class="product-thumb" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></div>' +
-        '<div class="product-body">' +
-          '<span class="product-cat">' + p.category + '</span>' +
-          '<h3>' + p.name + '</h3>' +
-          '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +
-          '<p class="product-desc">' + p.desc + '</p>' +
-          '<div class="product-actions">' +
-            '<a class="btn-outline btn" href="product.html?id=' + p.id + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
-            '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
-            '<button class="btn-outline btn" data-quick-wish="' + p.id + '" style="flex:0 0 auto; padding:10px 14px">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-    }).join("");
-    filterEl.querySelectorAll("button").forEach(function (b) {
-      b.classList.toggle("is-active", b.getAttribute("data-cat") === cat);
-    });
-    trackViewItemList(items, listNameFor(cat));
-  }
-
-  filterEl.addEventListener("click", function (e) {
-    const btn = e.target.closest("button[data-cat]");
-    if (!btn) return;
-    const cat = btn.getAttribute("data-cat");
-    if (cat === currentCategory) return;
-    sendEvent("filter_select", { filter_name: "category", filter_value: cat });
-    renderGrid(cat);
-  });
-
-  renderGrid("ALL");
-
-  grid.addEventListener("click", function (e) {
-    const detailLink = e.target.closest("[data-view-detail]");
-    if (detailLink) {
-      const p = getProductById(detailLink.getAttribute("data-view-detail"));
-      trackSelectItem(p, listNameFor(currentCategory));
-    }
-    const quickAdd = e.target.closest("[data-quick-add]");
-    if (quickAdd) {
-      const p = getProductById(quickAdd.getAttribute("data-quick-add"));
-      const variant = p.colors[0] + " / " + p.sizes[Math.min(1, p.sizes.length - 1)];
-      addToCart(p, 1, variant);
-      trackAddToCart(p, 1, variant);
-      quickAdd.textContent = "追加しました";
-      setTimeout(function () { quickAdd.textContent = "カートに追加"; }, 1200);
-    }
-    const quickWish = e.target.closest("[data-quick-wish]");
-    if (quickWish) {
-      const p = getProductById(quickWish.getAttribute("data-quick-wish"));
-      const added = toggleWishlist(p);
-      if (added) trackAddToWishlist(p);
-      quickWish.textContent = added ? "♥" : "♡";
-    }
+  // ---------- トップに出すピックアップ商品(全商品は products.html) ----------
+  const FEATURED_IDS = ["6", "7", "5", "2", "4", "1"];
+  initProductGrid({
+    gridId: "lineup-grid",
+    listName: "トップページ ピックアップ",
+    products: FEATURED_IDS.map(getProductById)
   });
 
   // ---------- Journal一覧(記事データは js/journal.js) ----------

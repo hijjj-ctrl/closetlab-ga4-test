@@ -1,112 +1,118 @@
 # TONE LAB - Dummy for GA4
 
-GA4学習・イベントシミュレーション用のダミーECサイトです。
-サーバーサイド処理は一切なく、GitHub Pages(無料)でそのまま公開できます。
+GA4・GTM・BigQuery・Looker Studio の学習用に作った、架空のECサイトです。
+サーバー側の処理は一切なく、GitHub Pages(無料)でそのまま公開できます。
+
+- 計測: **Googleタグマネージャー(GTM-KVGTX6H4)** → GA4(測定ID `G-BQ4DZSXQY0`)
+- 各ページは gtag.js を直接読み込みません。GA4への送信は、すべてGTMのタグが行います。
 
 ---
 
-## 1. GA4測定IDの設定(必須)
+## 1. 計測のしくみ(GTM)
 
-以下の5ファイルすべてに `G-XXXXXXXXXX` が2箇所ずつ(scriptタグのsrcと`gtag('config', ...)`)あります。
-ご自身のGA4測定IDに置き換えてください。
+1. 各HTMLの `<head>` に、同意モードの既定値 → GTMスニペットの順で入っています。`<body>` 直後には noscript 版が入っています。
+2. サイトのJS(`js/analytics.js`)が、イベントを `dataLayer.push()` で送ります。
+   - eコマース系: `{ event: "purchase", ecommerce: { ... } }`(GA4標準の形)
+   - それ以外: `{ event: "scroll_depth", percent_scrolled: 25, ... }`(パラメータを平らに置く)
+3. GTM側で、イベントごとにトリガーとGA4タグを用意して、GA4へ送ります。
+   設定方法は `gtm/GTM設定ガイド.md` を見てください(JSONのインポートでも、手作業でも設定できます)。
+4. 設定したら、必ずGTMの「プレビュー」で動作を確認してから「公開」します。
 
-- index.html
-- product.html
-- cart.html
-- checkout.html
-- thanks.html
-- contact.html
-- journal.html
-- search.html
-- 404.html
-- wishlist.html
-
-置き換え例(Macのターミナル/GitHub CodespacesなどLinux系シェルの場合):
-
-```
-grep -rl "G-XXXXXXXXXX" . | xargs sed -i '' 's/G-XXXXXXXXXX/G-あなたの測定ID/g'
-```
-
-(Linuxの場合は `sed -i` の後の `''` は不要です)
+`gtm/` フォルダは、手元で使う資料です。GitHubにアップロードしなくて大丈夫です。
 
 ---
 
-## 2. GitHub Pagesでの公開手順
+## 2. ページ構成
 
-1. GitHubで新しいリポジトリを作成(Public / Privateどちらでも可。Privateの場合は無料プランだとGitHub Pagesが使えないプランもあるため、学習用途ならPublic推奨。ただし中身は公開されます)
-2. このフォルダの中身一式をリポジトリにアップロード(GitHub Desktop、`git push`、またはWeb UIのドラッグ&ドロップでOK)
-3. リポジトリの Settings → Pages を開く
-4. 「Branch」を `main` / フォルダを `/root(または/docs)` に設定してSave
-5. 数分後、`https://ユーザー名.github.io/リポジトリ名/` で公開されます
+| ファイル | 内容 |
+|---|---|
+| index.html | トップ(ヒーロー、コンセプト、ピックアップ商品6点、カタログ、ジャーナル、FAQ) |
+| products.html | 商品一覧(全12点とカテゴリ絞り込み) |
+| product.html | 商品詳細(カラー・サイズ選択、カートに追加、お気に入り、関連商品) |
+| cart.html / checkout.html / thanks.html | カート → 購入手続き → 完了 |
+| wishlist.html | お気に入り |
+| journal.html | ジャーナル記事(動画記事は視聴計測つき) |
+| search.html | サイト内検索 |
+| contact.html | お問い合わせ(generate_lead) |
+| 404.html | ページが見つからないとき(page_not_found) |
+| simulate.html | **イベントシミュレーター**(ECイベントをまとめて自動送信、UTM付きリンク集) |
+
+データの置き場所:
+- 商品: `js/products.js`(12点。色・サイズも、ここで設定)
+- ジャーナル記事: `js/journal.js`(新しい記事ほど上に追加)
+- 配色: `css/style.css` の先頭の `:root`(ナチュラルカラー)
 
 ---
 
-## 3. セキュリティ・プライバシーのチェックリスト
+## 3. 画像・PDFの置き場所(assets/)
 
-- [ ] GA4測定IDを置き換えた(本番プロパティと混同しないよう、テスト専用プロパティ推奨)
-- [ ] `robots.txt` と各ページの `<meta name="robots" content="noindex,nofollow">` により検索エンジンにインデックスされない設定にしてある(すでに設定済み)
-- [ ] チェックアウトページのフォームには実在の個人情報を入力しない(架空の情報を使う)
-- [ ] 商品画像・カタログPDFはご自身の著作物(ChatGPT生成物など)のみを使用し、他サイトの画像を直接リンクしない
-- [ ] リポジトリに `.env` やAPIキー、Measurement Protocolの「APIシークレット」などは絶対に含めない(本サイトはgtag.jsのみのクライアント計測なので、そもそも不要です)
-- [ ] GA4の管理画面で「内部トラフィックの定義」を設定し、自分のアクセスを本番集計から除外する運用にする(テスト専用プロパティなら不要)
+`assets/images/`
+- `hero.jpg` … トップのヒーロー画像
+- `product-1.jpg` 〜 `product-12.jpg` … 商品画像
+- `journal-1.jpg` 初回購入特典 / `journal-2.jpg` リボンブラウス再入荷 / `journal-3.jpg` 新作予約開始 / `journal-4.jpg` 年末年始休業 / `journal-5.jpg` サイトリニューアル
+- `favicon.png` … ファビコン
+- `contact-hero.jpg`(または `.png`)、`404-image.jpg`(または `.png`) … どちらの拡張子でも表示されます
+
+`assets/pdf/catalog.pdf` … カタログ(CATALOGリンク・file_downloadイベントの確認に使います)
+
+※ 実在の人物・住所・電話番号・地名などが写り込んだ画像は使わないでください。
 
 ---
 
-## 4. 実装済みのGA4イベント一覧
+## 4. GitHub Pagesでの公開
 
-| イベント名 | 発生タイミング | 主なパラメータ |
+1. Settings → Pages で、Branch を `main` / `/ (root)` に設定します。
+2. ファイルは、リポジトリの直下に置きます(`js/`、`css/`、`assets/` はフォルダごと)。
+3. 更新後は、スーパーリロード(Shift+再読み込み)で、古いキャッシュを消して確認します。
+
+---
+
+## 5. セキュリティ・プライバシーのチェックリスト
+
+- [ ] 本番のGA4プロパティと混同しない(テスト専用プロパティで使う)
+- [ ] `robots.txt` と各ページの `noindex,nofollow` で、検索エンジンにインデックスされない設定にしてある
+- [ ] フォームには、実在の個人情報を入力しない(架空の情報を使う)
+- [ ] 画像・PDFは、自分で作ったもの、または利用許諾のあるものだけを使う。他サイトの画像は直接リンクしない
+- [ ] リポジトリに、APIキー・Measurement Protocolのシークレットなどを入れない
+- [ ] GA4で「Googleシグナル」は有効にしない
+- [ ] GTMのコンテナに、本番サイトの計測タグを入れない
+
+---
+
+## 6. 計測しているイベント
+
+### eコマース(GA4推奨イベント)
+view_item_list / select_item / view_item / add_to_cart / add_to_wishlist / remove_from_cart /
+view_cart / begin_checkout / add_shipping_info / add_payment_info / purchase / refund
+
+商品ページで選んだカラー・サイズは、`item_variant`(例: `ダスティブルー / M`)で送ります。
+購入時は、`coupon`(WELCOME10)と、送料 `shipping` も送ります。
+
+### 回遊・その他
+| イベント | タイミング | 主なパラメータ |
 |---|---|---|
-| page_view | 全ページ表示時(gtag.js自動) | page_location, page_title |
-| view_item_list | トップページのラインナップ表示時 | item_list_name, items[] |
-| select_item | 商品カードの「詳細を見る」クリック時 | item_list_name, items[] |
-| view_item | 商品詳細ページ表示時 | value, items[] |
-| add_to_cart | 「カートに追加」クリック時(トップ/詳細ページ両方) | value, items[] |
-| remove_from_cart | カートページで商品削除時 | value, items[] |
-| view_cart | カートページ表示時(商品がある場合) | value, items[] |
-| begin_checkout | 「購入手続きへ進む」クリック時 | value, items[] |
-| add_shipping_info | 配送方法選択時 | shipping_tier, value |
-| add_payment_info | 支払い方法選択時 | payment_type, value |
-| purchase | 「注文を確定する」クリック時 | transaction_id, value, shipping, items[] |
-| scroll_depth(独自) | ページを25/50/75/90%スクロール時 | percent_scrolled |
-| click(outbound=true)(独自) | 外部サイトへのリンククリック時 | link_url, link_domain |
-| file_download(独自) | PDF等のリンククリック時 | file_name, link_url |
-| faq_open(独自) | FAQの項目を開いた時 | question |
-| form_start(独自) | お問い合わせフォームに入力し始めた時 | form_name |
-| generate_lead | お問い合わせフォーム送信時 | lead_type, form_name |
-| select_content(独自) | Journal記事一覧クリック時・記事詳細ページ表示時 | content_type, item_id, content_title |
-| video_start(独自) | YouTube動画の再生開始時 | video_title, video_provider, video_url |
-| video_progress(独自) | 動画の再生が10/25/50/75%に到達した時 | video_title, video_percent |
-| video_complete(独自) | 動画の再生が終了した時 | video_title, video_provider, video_url |
-| view_search_results | サイト内検索の実行時 | search_term, results_count |
-| page_not_found(独自) | 存在しないURLにアクセスした時(404ページ) | page_path, page_referrer |
-| add_to_wishlist | お気に入りボタンクリック時 | value, items[] |
-| refund | サンクスページの「返品する」クリック時 | transaction_id, value, items[] |
-| consent_choice(独自) | Cookie同意バナーで選択した時 | consent_choice(granted/denied) |
+| page_view | ページ表示(GTMのGoogleタグ) | page_location, page_title |
+| scroll_depth | スクロール 25/50/75/90% | percent_scrolled, page_path |
+| click | 外部リンクのクリック | link_url, link_domain, outbound |
+| file_download | PDF等のクリック | file_name, link_url |
+| faq_open | FAQの開閉 | question |
+| select_content | ジャーナル記事のクリック・閲覧 | content_type, item_id, content_title |
+| view_search_results | サイト内検索 | search_term, results_count |
+| filter_select | ラインナップのカテゴリ絞り込み | filter_name, filter_value |
+| generate_lead / form_start | お問い合わせ | lead_type, form_name |
+| consent_choice | Cookie同意バナーの選択 | consent_choice |
+| video_start / video_progress / video_complete | 動画記事の視聴 | video_title, video_percent など |
+| page_not_found | 404の表示 | page_path, page_referrer |
 
-**バリアント(色・サイズ)について**
-商品詳細ページでカラー・サイズを選択できます。選択内容は`add_to_cart`・`purchase`などのitemsに`item_variant`パラメータ(例: "ブラック / M")として送信されます。
-
-**クーポンについて**
-チェックアウトページでクーポンコード `WELCOME10`(10%割引)を試せます。適用すると`purchase`イベントの`coupon`パラメータと、割引後の`value`が送信されます。
-
-**Cookie同意バナー(Consent Mode)について**
-初回アクセス時に画面下部にバナーが表示されます。「同意する/拒否する」の選択に応じて`gtag('consent','update',...)`が呼ばれ、GA4の計測が制御されます(学習用のため、選択に関わらず基本的なイベント自体は送信されるよう独自イベント`consent_choice`も別途送っています)。選択はlocalStorageに保存され、次回以降バナーは表示されません。テストのやり直しをしたい場合は、ブラウザの開発者ツールでlocalStorageの`closetlab_consent_v1`キーを削除してください。
-
-すべて `js/analytics.js` の `sendEvent()` を経由しています。
-新しいイベントを試したい場合は、この関数を呼び出す形で追加してください。
-`ANALYTICS_DEBUG = true` の間は、ブラウザのコンソールに送信内容が表示されます。
+### シミュレーター(simulate.html)が付けるパラメータ
+`simulated=true`、`sim_run_id`(1人分の買い物ごとのID)。
+GA4の「カスタム定義」で、イベントスコープのカスタムディメンションとして登録すると、レポートで使えます。
+(すべて、このブラウザ1台から送るため、ユーザー数は増えず、イベント数・購入数・売上が増えます)
 
 ---
 
-## 5. カート機能について
+## 7. 同意モード(Consent Mode)
 
-カートの中身はブラウザの `localStorage` にのみ保存され、外部には一切送信されません。
-別のブラウザ・別の端末からは共有されません(学習用の簡易実装のため)。
-
----
-
-## 6. よくあるつまずきポイント
-
-- GA4のリアルタイムレポート/DebugViewに反映されない → 測定IDの置き換え漏れがないか確認
-- 画像が色付きの四角のまま → `assets/images/` に画像を配置し、`js/products.js` の `image` パスと `index.html` / `product.html` の表示部分を差し替えてください(現状はCSSの色プレースホルダーで表示しています)
-- カタログPDFのリンクが404になる → `assets/pdf/catalog.pdf` にファイルを配置してください
+- 既定値は、すべて `denied`(同意前は、計測を制限)。バナーで「同意する」を選ぶと `granted` に更新されます。
+- 選択は、ブラウザの localStorage に保存され、次回以降は、最初から反映されます。
+- 試したいときは、開発者ツールで `closetlab_consent_v1` を削除して、再読み込みしてください。

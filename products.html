@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品一覧 | TONE LAB - Dummy for GA4</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/images/favicon.png?v=2">
+<link rel="shortcut icon" href="favicon.ico?v=2">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png?v=2">
+<meta name="description" content="GA4の計測・分析練習用に作成したダミーサイトです。">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://tagassistant.google.com; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://*.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com https://www.google.com https://www.google.co.jp; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://stats.g.doubleclick.net; frame-src https://www.googletagmanager.com;">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- ▼▼ 計測: Googleタグマネージャー (GTM-KVGTX6H4) ▼▼
+     ・GA4(測定ID G-BQ4DZSXQY0)への送信は、GTMのタグが行います。このページからgtag.jsは直接読み込みません。
+     ・同意モード(Consent Mode)の既定値は、GTMより先に宣言する必要があるため、この順番で置いています。 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // Consent Mode: 同意が得られるまでは既定で計測を制限しておく(過去に同意済みなら最初から granted)
+  (function () {
+    var c = "denied";
+    try {
+      var s = JSON.parse(localStorage.getItem("closetlab_consent_v1"));
+      if (s && s.choice === "granted") c = "granted";
+    } catch (e) {}
+    gtag("consent", "default", {
+      ad_storage: c,
+      ad_user_data: c,
+      ad_personalization: c,
+      analytics_storage: c
+    });
+  })();
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KVGTX6H4');</script>
+<!-- End Google Tag Manager -->
+<!-- ▲▲ ここまで ▲▲ -->
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVGTX6H4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">TONE LAB</a>
+    <nav class="main-nav">
+      <a href="index.html">HOME</a>
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="products.html">LINEUP</a>
+      <a href="assets/pdf/catalog.pdf">CATALOG</a>
+      <a href="index.html#journal">JOURNAL</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <form action="search.html" method="get">
+          <input type="text" name="q" placeholder="商品やJOURNALを検索" aria-label="サイト内検索">
+          <button type="submit" aria-label="検索">🔍</button>
+        </form>
+      </div>
+      <a href="cart.html" class="cart-link" aria-label="カート">🛍 <span class="cart-badge" data-cart-badge>0</span></a>
+      <a href="wishlist.html" class="cart-link" aria-label="お気に入り">♡ <span class="cart-badge" data-wishlist-badge>0</span></a>
+      <button class="menu-btn" data-menu-btn aria-label="メニュー">☰</button>
+    </div>
+  </div>
+  <div class="menu-panel" data-menu-panel>
+    <a href="index.html">HOME</a>
+    <a href="index.html#journal">JOURNAL</a>
+    <a href="wishlist.html">お気に入り</a>
+    <a href="products.html">LINEUP</a>
+    <a href="assets/pdf/catalog.pdf">CATALOG</a>
+    <a href="index.html#concept">CONCEPT</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+</header>
+
+<main>
+<section class="section" id="lineup">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:24px"><a href="index.html">HOME</a> / <span>LINEUP</span></div>
+    <div class="section-head">
+      <span class="eyebrow">LINEUP</span>
+      <h1 style="font-size:28px;margin-top:8px">商品一覧</h1>
+    </div>
+    <div class="cat-filter" id="cat-filter" role="group" aria-label="カテゴリで絞り込む"></div>
+    <div class="product-grid" id="lineup-grid"></div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <strong style="color:var(--text)">TONE LAB</strong><br><br>
+        GA4学習用のダミーサイトです。
+      </div>
+      <div>
+        <a href="index.html">HOME</a>
+        <a href="index.html#concept">CONCEPT</a>
+        <a href="products.html">LINEUP</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+      <div>
+        <a href="assets/pdf/catalog.pdf">CATALOG</a>
+        <a href="https://www.instagram.com/">Instagram(外部リンク例)</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 TONE LAB (Dummy site for GA4 learning)<br>
+      本サイトは実在の店舗・ブランドとは一切関係のない、GA4の計測・分析学習を目的として作成した架空のサイトです。ユーザーデータの収集は行っておらず、実際の商品販売・決済も行っておりません。
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/lineup.js"></script>
+<script src="js/consent.js"></script>
+<script src="js/main.js"></script>
+<script>
+  initProductGrid({
+    gridId: "lineup-grid",
+    filterId: "cat-filter",
+    listName: "商品一覧ページ",
+    products: PRODUCTS
+  });
+</script>
+</body>
+</html>
