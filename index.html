@@ -127,34 +127,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<section class="section" id="categories">
+<section class="section" id="lineup">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">CATEGORY</span>
-      <h2>カテゴリから探す</h2>
+      <span class="eyebrow">LINEUP</span>
+      <h2>ピックアップ</h2>
     </div>
-    <div class="cat-tiles" id="cat-tiles"></div>
-  </div>
-</section>
-
-<section class="section section-alt" id="lineup">
-  <div class="container">
-    <div class="row-head">
-      <div><span class="eyebrow">NEW ARRIVAL</span><h2>新着アイテム</h2></div>
-      <a class="row-more" href="products.html">すべて見る ›</a>
-    </div>
-    <div class="h-scroll" id="row-new"></div>
-  </div>
-</section>
-
-<section class="section" id="ranking">
-  <div class="container">
-    <div class="row-head">
-      <div><span class="eyebrow">RANKING</span><h2>人気ランキング</h2></div>
-      <a class="row-more" href="products.html">すべて見る ›</a>
-    </div>
-    <div class="h-scroll" id="row-rank"></div>
-    <div class="center" style="margin-top:36px"><a href="products.html" class="btn" id="all-products-link">商品一覧を見る(全12点)</a></div>
+    <div class="product-grid" id="lineup-grid"></div>
+    <div class="center" style="margin-top:36px"><a href="products.html" class="btn" id="all-products-link">すべての商品を見る(全12点)</a></div>
   </div>
 </section>
 
@@ -226,156 +206,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="js/cart.js"></script>
 <script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
+<script src="js/lineup.js"></script>
 <script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
-// ============================================================
-// 商品カード一覧の共通処理(トップページ・商品一覧ページ共通)
-// initProductGrid({ gridId, listName, products, filterId })
-//   ・商品カードを描画し、view_item_list を送る
-//   ・商品画像/商品名/「詳細を見る」のどれを押しても、商品詳細ページへ移動(select_item を送る)
-//   ・filterId を渡すと、カテゴリ絞り込みボタンを作る(filter_select を送る)
-// ============================================================
-function initProductGrid(opts) {
-  const grid = document.getElementById(opts.gridId);
-  const filterEl = opts.filterId ? document.getElementById(opts.filterId) : null;
-  let currentCategory = "ALL";
-
-  function listNameFor(cat) {
-    return cat === "ALL" ? opts.listName : opts.listName + "(" + cat + ")";
-  }
-
-  function render(cat) {
-    currentCategory = cat;
-    const items = cat === "ALL" ? opts.products : opts.products.filter(function (p) { return p.category === cat; });
-    grid.innerHTML = items.map(function (p) {
-      const href = 'product.html?id=' + p.id;
-      return '<div class="product-card">' +
-        '<a class="product-thumb" href="' + href + '" data-view-detail="' + p.id + '" aria-label="' + p.name + 'の詳細を見る" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></a>' +
-        '<div class="product-body">' +
-          '<span class="product-cat">' + p.category + '</span>' +
-          '<h3><a class="product-name-link" href="' + href + '" data-view-detail="' + p.id + '">' + p.name + '</a></h3>' +
-          '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +
-          '<p class="product-desc">' + p.desc + '</p>' +
-          '<div class="product-actions">' +
-            '<a class="btn-outline btn" href="' + href + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
-            '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
-            '<button class="btn-outline btn" data-quick-wish="' + p.id + '" style="flex:0 0 auto; padding:10px 14px">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-    }).join("");
-    if (filterEl) {
-      filterEl.querySelectorAll("button").forEach(function (b) {
-        b.classList.toggle("is-active", b.getAttribute("data-cat") === cat);
-      });
-    }
-    trackViewItemList(items, listNameFor(cat));
-  }
-
-  if (filterEl) {
-    filterEl.innerHTML = ["ALL"].concat(PRODUCT_CATEGORIES).map(function (c) {
-      return '<button type="button" data-cat="' + c + '">' + (c === "ALL" ? "すべて" : c) + '</button>';
-    }).join("");
-    filterEl.addEventListener("click", function (e) {
-      const btn = e.target.closest("button[data-cat]");
-      if (!btn) return;
-      const cat = btn.getAttribute("data-cat");
-      if (cat === currentCategory) return;
-      sendEvent("filter_select", { filter_name: "category", filter_value: cat });
-      render(cat);
-    });
-  }
-
-  grid.addEventListener("click", function (e) {
-    const detailLink = e.target.closest("[data-view-detail]");
-    if (detailLink) {
-      const p = getProductById(detailLink.getAttribute("data-view-detail"));
-      trackSelectItem(p, listNameFor(currentCategory));
-    }
-    const quickAdd = e.target.closest("[data-quick-add]");
-    if (quickAdd) {
-      const p = getProductById(quickAdd.getAttribute("data-quick-add"));
-      const variant = p.colors[0] + " / " + p.sizes[Math.min(1, p.sizes.length - 1)];
-      addToCart(p, 1, variant);
-      trackAddToCart(p, 1, variant);
-      quickAdd.textContent = "追加しました";
-      setTimeout(function () { quickAdd.textContent = "カートに追加"; }, 1200);
-    }
-    const quickWish = e.target.closest("[data-quick-wish]");
-    if (quickWish) {
-      const p = getProductById(quickWish.getAttribute("data-quick-wish"));
-      const added = toggleWishlist(p);
-      if (added) trackAddToWishlist(p);
-      quickWish.textContent = added ? "♥" : "♡";
-    }
+  // ---------- トップに出すピックアップ商品(全商品は products.html) ----------
+  const FEATURED_IDS = ["6", "7", "5", "2", "4", "1"];
+  initProductGrid({
+    gridId: "lineup-grid",
+    listName: "トップページ ピックアップ",
+    products: FEATURED_IDS.map(getProductById)
   });
-
-  // ?cat=アウター のように、カテゴリを指定して開けるようにする
-  let initial = "ALL";
-  try {
-    const q = new URLSearchParams(location.search).get("cat");
-    if (q && PRODUCT_CATEGORIES.indexOf(q) !== -1) initial = q;
-  } catch (e) {}
-  render(initial);
-}
-
-// ------------------------------------------------------------
-// トップページ用: 横にスクロールできるコンパクトな商品カード列(GU風)
-// initMiniRow({ rootId, listName, products, rank })  rank:true で順位バッジを付ける
-// ------------------------------------------------------------
-function initMiniRow(opts) {
-  const root = document.getElementById(opts.rootId);
-  root.innerHTML = opts.products.map(function (p, i) {
-    const href = 'product.html?id=' + p.id;
-    return '<div class="mini-card">' +
-      '<div class="mini-thumb-wrap">' +
-        '<a class="mini-thumb" href="' + href + '" data-view-detail="' + p.id + '" aria-label="' + p.name + 'の詳細を見る" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy" onerror="this.remove()"></a>' +
-        (opts.rank ? '<span class="mini-rank">' + (i + 1) + '</span>' : '') +
-        '<button type="button" class="mini-wish" data-quick-wish="' + p.id + '" aria-label="お気に入りに追加">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
-      '</div>' +
-      '<a class="mini-name" href="' + href + '" data-view-detail="' + p.id + '">' + p.name + '</a>' +
-      '<div class="mini-price">¥' + p.price.toLocaleString() + '</div>' +
-    '</div>';
-  }).join("");
-
-  trackViewItemList(opts.products, opts.listName);
-
-  root.addEventListener("click", function (e) {
-    const detail = e.target.closest("[data-view-detail]");
-    if (detail) {
-      trackSelectItem(getProductById(detail.getAttribute("data-view-detail")), opts.listName);
-    }
-    const wish = e.target.closest("[data-quick-wish]");
-    if (wish) {
-      const p = getProductById(wish.getAttribute("data-quick-wish"));
-      const added = toggleWishlist(p);
-      if (added) trackAddToWishlist(p);
-      wish.textContent = added ? "♥" : "♡";
-    }
-  });
-}
-
-
-</script>
-<script>
-  // ---------- カテゴリタイル(各カテゴリの先頭商品の写真を使う) ----------
-  document.getElementById("cat-tiles").innerHTML = PRODUCT_CATEGORIES.map(function (c) {
-    const first = PRODUCTS.find(function (p) { return p.category === c; });
-    return '<a class="cat-tile" href="products.html?cat=' + encodeURIComponent(c) + '" data-cat-tile="' + c + '">' +
-      '<span class="cat-tile-img" style="background:' + first.color + '"><img src="' + first.image + '" alt="" loading="lazy" onerror="this.remove()"></span>' +
-      '<span class="cat-tile-name">' + c + '</span></a>';
-  }).join("");
-  document.getElementById("cat-tiles").addEventListener("click", function (e) {
-    const tile = e.target.closest("[data-cat-tile]");
-    if (tile) sendEvent("select_content", { content_type: "category", item_id: tile.getAttribute("data-cat-tile"), content_title: tile.getAttribute("data-cat-tile") });
-  });
-
-  // ---------- 新着 / ランキング(ダミーの並び。全商品は products.html) ----------
-  const NEW_IDS  = ["6", "7", "5", "2", "4", "3", "9"];
-  const RANK_IDS = ["1", "12", "9", "8", "10", "11"];
-  initMiniRow({ rootId: "row-new",  listName: "トップページ 新着",       products: NEW_IDS.map(getProductById) });
-  initMiniRow({ rootId: "row-rank", listName: "トップページ ランキング", products: RANK_IDS.map(getProductById), rank: true });
 
   // ---------- Journal一覧(記事データは js/journal.js) ----------
   document.getElementById("journal-list").innerHTML = JOURNAL_POSTS.map(function (post) {
