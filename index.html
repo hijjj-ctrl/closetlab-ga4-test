@@ -92,49 +92,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a class="news-pill" href="journal.html?id=6" data-journal-id="6">2026.10.18 サイトリニューアル</a>
     <h1>わたしらしく、<br>旬をまとう。</h1>
     <p>毎日に寄り添う、心地よいベーシック。</p>
+    <div class="hero-cta">
+      <a class="btn" href="#new" id="cta-new">新着アイテムを見る</a>
+      <a class="btn btn-outline" href="products.html" id="cta-all">商品一覧</a>
+    </div>
     <div class="hero-visual">
       <img src="assets/images/hero.jpg" alt="TONE LAB 2026 Fall-Winter" onerror="this.remove()">
     </div>
   </div>
 </section>
 
-<section class="section" id="concept">
-  <div class="container concept-grid">
-    <div>
+<nav class="cat-bar" aria-label="カテゴリから探す">
+  <div class="container cat-bar-inner">
+    <span class="cat-bar-label">CATEGORY</span>
+    <div class="cat-chips" id="cat-chips"></div>
+  </div>
+</nav>
+
+<section class="section" id="new">
+  <div class="container">
+    <div class="store-head">
+      <span class="eyebrow">ONLINE STORE</span>
+    </div>
+    <div class="h-scroll h-scroll-3" id="row-new"><div class="mini-card"><div class="mini-thumb-wrap"><a class="mini-thumb" href="product.html?id=6" data-view-detail="6" aria-label="カシミアのウールコートの詳細を見る" style="background:#C49A6C"><img src="assets/images/product-6.jpg" alt="カシミアのウールコート" loading="lazy" onerror="this.remove()"></a><button type="button" class="mini-wish" data-quick-wish="6" aria-label="お気に入りに追加">♡</button></div><a class="mini-name" href="product.html?id=6" data-view-detail="6">カシミアのウールコート</a><div class="mini-price">¥109,000</div></div><div class="mini-card"><div class="mini-thumb-wrap"><a class="mini-thumb" href="product.html?id=7" data-view-detail="7" aria-label="ニットワンピースの詳細を見る" style="background:#8FA3B5"><img src="assets/images/product-7.jpg" alt="ニットワンピース" loading="lazy" onerror="this.remove()"></a><button type="button" class="mini-wish" data-quick-wish="7" aria-label="お気に入りに追加">♡</button></div><a class="mini-name" href="product.html?id=7" data-view-detail="7">ニットワンピース</a><div class="mini-price">¥15,900</div></div><div class="mini-card"><div class="mini-thumb-wrap"><a class="mini-thumb" href="product.html?id=2" data-view-detail="2" aria-label="マーメイドスカートの詳細を見る" style="background:#B5543A"><img src="assets/images/product-2.jpg" alt="マーメイドスカート" loading="lazy" onerror="this.remove()"></a><button type="button" class="mini-wish" data-quick-wish="2" aria-label="お気に入りに追加">♡</button></div><a class="mini-name" href="product.html?id=2" data-view-detail="2">マーメイドスカート</a><div class="mini-price">¥12,900</div></div></div>
+    <div class="center store-more"><a href="products.html" class="btn btn-lg" id="all-products-link">すべての商品を見る</a></div>
+  </div>
+</section>
+
+<section class="section section-alt" id="concept">
+  <div class="container">
+    <div class="concept-lead">
       <span class="eyebrow">CONCEPT</span>
       <h2>心地よさを、かたちに。</h2>
+      <p>
+        素材の肌ざわり、身体を包むシルエット、毎日の暮らしになじむデザイン。<br>
+        流行だけを追うのではなく、長く愛せるものを丁寧に選ぶ。<br>
+        「今日もこれを着たい」と思える一着を、ひとつひとつ心を込めてお届けします。
+      </p>
     </div>
-    <p>
-      素材の肌ざわり、身体を包むシルエット、毎日の暮らしになじむデザイン。<br>
-      流行だけを追うのではなく、長く愛せるものを丁寧に選ぶ。<br>
-      「今日もこれを着たい」と思える一着を、ひとつひとつ心を込めてお届けします。
-    </p>
+    <div class="pillars pillars-cards">
+      <div class="pillar"><span class="pillar-no">01</span><h3>QUALITY</h3><p>上質な素材と、丁寧な仕立て。</p></div>
+      <div class="pillar"><span class="pillar-no">02</span><h3>COMFORT</h3><p>一日中、自分らしくいられる心地よさ。</p></div>
+      <div class="pillar"><span class="pillar-no">03</span><h3>TIMELESS</h3><p>季節やトレンドを越えて、長く楽しめるデザイン。</p></div>
+    </div>
   </div>
 </section>
 
-<section class="section section-alt">
+<section class="section" id="journal">
   <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">PRODUCT</span>
-      <h2>3つのこだわり</h2>
+    <div class="row-head">
+      <div><span class="eyebrow">JOURNAL</span><h2>最新情報</h2></div>
     </div>
-    <div class="pillars">
-      <div class="pillar"><h3>QUALITY</h3><p>上質な素材と、丁寧な仕立て。</p></div>
-      <div class="pillar"><h3>COMFORT</h3><p>一日中、自分らしくいられる心地よさ。</p></div>
-      <div class="pillar"><h3>TIMELESS</h3><p>季節やトレンドを越えて、長く楽しめるデザイン。</p></div>
+    <div class="journal-wrap">
+      <div id="journal-featured"></div>
+      <div class="journal-list" id="journal-list"></div>
     </div>
-    <div class="center"><a href="#lineup" class="btn">ONLINE STORE</a></div>
-  </div>
-</section>
-
-<section class="section" id="lineup">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">LINEUP</span>
-      <h2>ピックアップ</h2>
-    </div>
-    <div class="product-grid" id="lineup-grid"></div>
-    <div class="center" style="margin-top:36px"><a href="products.html" class="btn" id="all-products-link">すべての商品を見る(全12点)</a></div>
   </div>
 </section>
 
@@ -145,17 +157,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>2026 Fall-Winter カタログ</h2>
       <p>季節の景色の中で、モデルが商品をまとったルックブック形式のカタログ(PDF)です。</p>
       <a class="btn" href="assets/pdf/catalog.pdf">カタログPDFを見る</a>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="journal">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">JOURNAL</span>
-      <h2>最新情報</h2>
-    </div>
-    <div class="journal-list" id="journal-list">
     </div>
   </div>
 </section>
@@ -206,20 +207,166 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="js/cart.js"></script>
 <script src="js/wishlist.js"></script>
 <script src="js/analytics.js"></script>
-<script src="js/lineup.js"></script>
 <script src="js/consent.js"></script>
 <script src="js/main.js"></script>
 <script>
-  // ---------- トップに出すピックアップ商品(全商品は products.html) ----------
-  const FEATURED_IDS = ["6", "7", "5", "2", "4", "1"];
-  initProductGrid({
-    gridId: "lineup-grid",
-    listName: "トップページ ピックアップ",
-    products: FEATURED_IDS.map(getProductById)
+// ============================================================
+// 商品カード一覧の共通処理(トップページ・商品一覧ページ共通)
+// initProductGrid({ gridId, listName, products, filterId })
+//   ・商品カードを描画し、view_item_list を送る
+//   ・商品画像/商品名/「詳細を見る」のどれを押しても、商品詳細ページへ移動(select_item を送る)
+//   ・filterId を渡すと、カテゴリ絞り込みボタンを作る(filter_select を送る)
+// ============================================================
+function initProductGrid(opts) {
+  const grid = document.getElementById(opts.gridId);
+  const filterEl = opts.filterId ? document.getElementById(opts.filterId) : null;
+  let currentCategory = "ALL";
+
+  function listNameFor(cat) {
+    return cat === "ALL" ? opts.listName : opts.listName + "(" + cat + ")";
+  }
+
+  function render(cat) {
+    currentCategory = cat;
+    const items = cat === "ALL" ? opts.products : opts.products.filter(function (p) { return p.category === cat; });
+    grid.innerHTML = items.map(function (p) {
+      const href = 'product.html?id=' + p.id;
+      return '<div class="product-card">' +
+        '<a class="product-thumb" href="' + href + '" data-view-detail="' + p.id + '" aria-label="' + p.name + 'の詳細を見る" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.remove()"></a>' +
+        '<div class="product-body">' +
+          '<span class="product-cat">' + p.category + '</span>' +
+          '<h3><a class="product-name-link" href="' + href + '" data-view-detail="' + p.id + '">' + p.name + '</a></h3>' +
+          '<div class="product-price">¥' + p.price.toLocaleString() + '</div>' +
+          '<p class="product-desc">' + p.desc + '</p>' +
+          '<div class="product-actions">' +
+            '<a class="btn-outline btn" href="' + href + '" data-view-detail="' + p.id + '">詳細を見る</a>' +
+            '<button class="btn" data-quick-add="' + p.id + '">カートに追加</button>' +
+            '<button class="btn-outline btn" data-quick-wish="' + p.id + '" style="flex:0 0 auto; padding:10px 14px">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+    if (filterEl) {
+      filterEl.querySelectorAll("button").forEach(function (b) {
+        b.classList.toggle("is-active", b.getAttribute("data-cat") === cat);
+      });
+    }
+    trackViewItemList(items, listNameFor(cat));
+  }
+
+  if (filterEl) {
+    filterEl.innerHTML = ["ALL"].concat(PRODUCT_CATEGORIES).map(function (c) {
+      return '<button type="button" data-cat="' + c + '">' + (c === "ALL" ? "すべて" : c) + '</button>';
+    }).join("");
+    filterEl.addEventListener("click", function (e) {
+      const btn = e.target.closest("button[data-cat]");
+      if (!btn) return;
+      const cat = btn.getAttribute("data-cat");
+      if (cat === currentCategory) return;
+      sendEvent("filter_select", { filter_name: "category", filter_value: cat });
+      render(cat);
+    });
+  }
+
+  grid.addEventListener("click", function (e) {
+    const detailLink = e.target.closest("[data-view-detail]");
+    if (detailLink) {
+      const p = getProductById(detailLink.getAttribute("data-view-detail"));
+      trackSelectItem(p, listNameFor(currentCategory));
+    }
+    const quickAdd = e.target.closest("[data-quick-add]");
+    if (quickAdd) {
+      const p = getProductById(quickAdd.getAttribute("data-quick-add"));
+      const variant = p.colors[0] + " / " + p.sizes[Math.min(1, p.sizes.length - 1)];
+      addToCart(p, 1, variant);
+      trackAddToCart(p, 1, variant);
+      quickAdd.textContent = "追加しました";
+      setTimeout(function () { quickAdd.textContent = "カートに追加"; }, 1200);
+    }
+    const quickWish = e.target.closest("[data-quick-wish]");
+    if (quickWish) {
+      const p = getProductById(quickWish.getAttribute("data-quick-wish"));
+      const added = toggleWishlist(p);
+      if (added) trackAddToWishlist(p);
+      quickWish.textContent = added ? "♥" : "♡";
+    }
   });
 
-  // ---------- Journal一覧(記事データは js/journal.js) ----------
-  document.getElementById("journal-list").innerHTML = JOURNAL_POSTS.map(function (post) {
+  // ?cat=アウター のように、カテゴリを指定して開けるようにする
+  let initial = "ALL";
+  try {
+    const q = new URLSearchParams(location.search).get("cat");
+    if (q && PRODUCT_CATEGORIES.indexOf(q) !== -1) initial = q;
+  } catch (e) {}
+  render(initial);
+}
+
+// ------------------------------------------------------------
+// トップページ用: 横にスクロールできるコンパクトな商品カード列(GU風)
+// initMiniRow({ rootId, listName, products, rank })  rank:true で順位バッジを付ける
+// ------------------------------------------------------------
+function initMiniRow(opts) {
+  const root = document.getElementById(opts.rootId);
+  root.innerHTML = opts.products.map(function (p, i) {
+    const href = 'product.html?id=' + p.id;
+    return '<div class="mini-card">' +
+      '<div class="mini-thumb-wrap">' +
+        '<a class="mini-thumb" href="' + href + '" data-view-detail="' + p.id + '" aria-label="' + p.name + 'の詳細を見る" style="background:' + p.color + '"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy" onerror="this.remove()"></a>' +
+        (opts.rank ? '<span class="mini-rank">' + (i + 1) + '</span>' : '') +
+        '<button type="button" class="mini-wish" data-quick-wish="' + p.id + '" aria-label="お気に入りに追加">' + (isInWishlist(p.id) ? '♥' : '♡') + '</button>' +
+      '</div>' +
+      '<a class="mini-name" href="' + href + '" data-view-detail="' + p.id + '">' + p.name + '</a>' +
+      '<div class="mini-price">¥' + p.price.toLocaleString() + '</div>' +
+    '</div>';
+  }).join("");
+
+  trackViewItemList(opts.products, opts.listName);
+
+  root.addEventListener("click", function (e) {
+    const detail = e.target.closest("[data-view-detail]");
+    if (detail) {
+      trackSelectItem(getProductById(detail.getAttribute("data-view-detail")), opts.listName);
+    }
+    const wish = e.target.closest("[data-quick-wish]");
+    if (wish) {
+      const p = getProductById(wish.getAttribute("data-quick-wish"));
+      const added = toggleWishlist(p);
+      if (added) trackAddToWishlist(p);
+      wish.textContent = added ? "♥" : "♡";
+    }
+  });
+}
+
+
+</script>
+<script>
+  // ---------- カテゴリ: 商品は載せず、各カテゴリの商品一覧へジャンプするだけ ----------
+  const chipEl = document.getElementById("cat-chips");
+  chipEl.innerHTML = '<a class="cat-chip" href="products.html" data-cat-tile="ALL">すべて</a>' +
+    PRODUCT_CATEGORIES.map(function (c) {
+      return '<a class="cat-chip" href="products.html?cat=' + encodeURIComponent(c) + '" data-cat-tile="' + c + '">' + c + '</a>';
+    }).join("");
+  chipEl.addEventListener("click", function (e) {
+    const chip = e.target.closest("[data-cat-tile]");
+    if (chip) sendEvent("select_content", { content_type: "category", item_id: chip.getAttribute("data-cat-tile"), content_title: chip.textContent.trim() });
+  });
+
+  // ---------- 新着アイテム(カテゴリの違う3点: アウター / ワンピース / ボトムス) ----------
+  const NEW_IDS = ["6", "7", "2"];
+  initMiniRow({ rootId: "row-new", listName: "トップページ 新着", products: NEW_IDS.map(getProductById) });
+
+  // ---------- Journal(最新1件を大きく、残りは一覧。記事データは js/journal.js) ----------
+  const latest = JOURNAL_POSTS[0];
+  document.getElementById("journal-featured").innerHTML =
+    '<a class="journal-feature" data-journal-id="' + latest.id + '" href="journal.html?id=' + latest.id + '">' +
+      '<span class="journal-feature-img" style="background:' + (latest.videoId ? '#000' : latest.color) + '"><img src="' + journalThumbUrl(latest) + '" alt="" onerror="this.remove()"></span>' +
+      '<span class="journal-feature-body">' +
+        '<span><span class="journal-tag">' + latest.tag + '</span><span class="journal-date">' + latest.date + '</span></span>' +
+        '<strong>' + latest.title + '</strong>' +
+        '<span class="journal-feature-more">記事を読む ›</span>' +
+      '</span>' +
+    '</a>';
+  document.getElementById("journal-list").innerHTML = JOURNAL_POSTS.slice(1).map(function (post) {
     return '<a class="journal-item" data-journal-id="' + post.id + '" href="journal.html?id=' + post.id + '">' +
       '<span class="journal-thumb" style="background:' + (post.videoId ? '#000' : post.color) + '"><img src="' + journalThumbUrl(post) + '" alt="" style="object-position:' + (post.thumbPos || '50% 50%') + '" onerror="this.remove()"></span>' +
       '<span class="journal-date">' + post.date + '</span>' +

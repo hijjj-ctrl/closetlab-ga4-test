@@ -26,7 +26,7 @@ GA4・GTM・BigQuery・Looker Studio の学習用に作った、架空のECサ�
 
 | ファイル | 内容 |
 |---|---|
-| index.html | トップ(ヒーロー、コンセプト、ピックアップ商品6点、カタログ、ジャーナル、FAQ) |
+| index.html | トップ(ヒーロー、コンセプト、カテゴリ(一覧へのリンク)・新着3点・コンセプト・ジャーナル、カタログ、ジャーナル、FAQ) |
 | products.html | 商品一覧(全12点とカテゴリ絞り込み) |
 | product.html | 商品詳細(カラー・サイズ選択、カートに追加、お気に入り、関連商品) |
 | cart.html / checkout.html / thanks.html | カート → 購入手続き → 完了 |
